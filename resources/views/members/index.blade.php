@@ -19,6 +19,15 @@
                                 <label for="recipient-name" class="col-form-label">Nama:</label>
                                 <input type="text" class="form-control" id="recipient-name" name="name">
                             </div>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"
+                                    name="address"></textarea>
+                                <label for="floatingTextarea2">Alamat</label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Nomor Telepon:</label>
+                                <input type="number" class="form-control" id="recipient-name" name="phone_number">
+                            </div>
                             <div class="mb-3">
                                 <label for="recipient-name" class="col-form-label">Email:</label>
                                 <input type="text" class="form-control" id="recipient-name" name="email">
@@ -44,6 +53,8 @@
             <tr>
                 <th scope="col">No</th>
                 <th scope="col">Name</th>
+                <th scope="col">Alamat</th>
+                <th scope="col">Nomor Telepon</th>
                 <th scope="col">Email</th>
                 <th scope="col">Action</th>
             </tr>
@@ -53,6 +64,8 @@
                 <tr>
                     <th scope="row"> {{ $index + 1 }} </th>
                     <td>{{ $member->name }}</td>
+                    <td>{{ $member->address }}</td>
+                    <td>{{ $member->phone_number }}</td>
                     <td>{{ $member->email }}</td>
                     <td></td>
                 </tr>

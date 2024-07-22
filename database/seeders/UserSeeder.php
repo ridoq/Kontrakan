@@ -15,12 +15,16 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'admin',
+            'address' => '.....',
+            'phone_number' => '123123123',
             'email' => 'admin@gmail.com',
             'password' => '12345678',
         ])->assignRole('admin');
 
         User::create([
             'name' => 'member',
+            'address' => '.....',
+            'phone_number' => '123456789',
             'email' => 'member@gmail.com',
             'password' => '12345678',
         ])->assignRole('member');
