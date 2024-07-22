@@ -6,6 +6,7 @@
     content="Materialize – is the most developer friendly &amp; highly customizable Admin Dashboard Template." />
 <meta name="keywords"
     content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <!-- Canonical SEO -->
 <link rel="canonical" href="https://1.envato.market/materialize_admin">
 <script>
@@ -41,12 +42,14 @@
 <link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
 <link rel="stylesheet" href="../../assets/vendor/libs/swiper/swiper.css" />
 
+<link rel="stylesheet" href="../../assets/vendor/fonts/materialdesignicons.css" />
+<link rel="stylesheet" href="{{ asset('assets/vendor/fonts/flag-icons.css') }}" />
+
 <!-- Page CSS -->
 <link rel="stylesheet" href="../../assets/vendor/css/pages/cards-statistics.css" />
 <link rel="stylesheet" href="../../assets/vendor/css/pages/cards-analytics.css" />
 
 <!-- Helpers -->
-<script src="../../assets/vendor/js/helpers.js"></script>
 <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
 <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
 <script src="../../assets/vendor/js/template-customizer.js"></script>

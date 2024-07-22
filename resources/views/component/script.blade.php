@@ -9,6 +9,7 @@
 <script src="../../assets/vendor/js/menu.js"></script>
 <script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 <script src="../../assets/vendor/libs/swiper/swiper.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/scripts/verify.min.js"></script>
 <!-- Main JS -->
 <script src="../../assets/js/main.js"></script>
 <!-- Page JS -->
