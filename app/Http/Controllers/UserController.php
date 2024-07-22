@@ -29,7 +29,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        User::create($request->all())->assignRole('member');
+        return redirect()->route('members')->with('success', 'Berhasil menambah anggota baru.');
     }
 
     /**
