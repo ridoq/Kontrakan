@@ -1,6 +1,5 @@
 {{-- Template --}}
-<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-    id="layout-navbar">
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center "id="layout-navbar">
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
         <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
             <i class="ri-menu-fill ri-22px"></i>
@@ -422,8 +421,13 @@
                                     </div>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <span class="fw-medium d-block small">John Doe</span>
-                                    <small class="text-muted">Admin</small>
+                                    <span class="fw-medium d-block small">{{ Auth::user()->name }}</span>
+                                    @hasrole('admin')
+                                        <small class="text-muted">Admin</small>
+                                    @endhasrole
+                                    @hasrole('member')
+                                        <small class="text-muted">Member</small>
+                                    @endhasrole
                                 </div>
                             </div>
                         </a>
@@ -466,7 +470,8 @@
                     </li>
                     <li>
                         <div class="d-grid px-4 pt-2 pb-1">
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 <i class="mdi mdi-logout me-2"></i>
                                 <span class="align-middle">{{ __('Logout') }}</span>
                             </a>
@@ -541,3 +546,13 @@
         </div>
     </div>
 </nav> --}}
+<script>
+    const nav = document.getElementById('layout-navbar');
+
+    window.addEventListener('scroll', function() {
+        nav.classList.toggle('bg-white', window.scrollY > 0);
+        nav.classList.toggle('border', window.scrollY > 0);
+        nav.classList.toggle('p-4', window.scrollY > 0);
+        nav.classList.toggle('shadow-sm', window.scrollY > 0);
+    });
+</script>
