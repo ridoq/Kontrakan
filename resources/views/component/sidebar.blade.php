@@ -1,4 +1,5 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" style="border-right: 1px solid rgba(0,0,0,.1)">
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme"
+    style="border-right: 1px solid rgba(0,0,0,.1)">
 
     <div class="app-brand demo ">
         <a href="index.html" class="app-brand-link">
@@ -63,7 +64,7 @@
         <li class="menu-item active">
             <a href="#" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
-                <div >Dashboard</div>
+                <div>Dashboard</div>
             </a>
         </li>
 
@@ -170,7 +171,7 @@
             <span class="menu-header-text" data-i18n="Apps & Pages">Anggota</span>
         </li>
         <li class="menu-item">
-            <a href="app-email.html" class="menu-link">
+            <a href="{{ url('anggota') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-account-group"></i>
                 <div>Daftar anggota</div>
             </a>
