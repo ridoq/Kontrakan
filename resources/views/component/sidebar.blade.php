@@ -61,8 +61,8 @@
 
     <ul class="menu-inner py-1">
         <!-- Dashboards -->
-        <li class="menu-item active">
-            <a href="#" class="menu-link">
+        <li class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            <a href="{{ url('dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons ri-home-smile-line"></i>
                 <div>Dashboard</div>
             </a>
@@ -170,7 +170,7 @@
         <li class="menu-header mt-5">
             <span class="menu-header-text" data-i18n="Apps & Pages">Anggota</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('members') ? 'active' : '' }}">
             <a href="{{ url('anggota') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-account-group"></i>
                 <div>Daftar anggota</div>
