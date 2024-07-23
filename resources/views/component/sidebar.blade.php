@@ -192,7 +192,7 @@
             </a>
         </li>
         <li class="menu-item">
-            <a href="app-email.html" class="menu-link">
+            <a href="{{ url('bayarkas') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cash-plus"></i>
                 <div>Bayar Kas</div>
             </a>

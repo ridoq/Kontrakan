@@ -8,8 +8,6 @@
 </head>
 
 <body>
-
-
     <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5J3LMKC" height="0" width="0"
             style="display: none; visibility: hidden"></iframe></noscript>
@@ -46,6 +44,23 @@
 
 
                     <div class="row g-6">
+                        @if (session('success'))
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong> {{ session('success') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                        @endif
+
+                        @if (session('error'))
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong> {{ session('error') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                        @endif
                         @yield('content')
                     </div>
 

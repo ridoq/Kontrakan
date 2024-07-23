@@ -12,8 +12,13 @@ class Income extends Model
     protected $fillable = [
         'payment_proof',
         'user_id',
-        'ammount',
+        'amount',
         'income_date',
         'description',
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

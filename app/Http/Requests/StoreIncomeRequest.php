@@ -22,7 +22,7 @@ class StoreIncomeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_proof' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
+            'payment_proof' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
             'user_id' => 'required|exists:users,id',
             'ammount' => 'required|numeric|min:0',
             'income_date' => 'required|date',
