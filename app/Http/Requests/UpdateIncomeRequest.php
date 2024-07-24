@@ -24,7 +24,7 @@ class UpdateIncomeRequest extends FormRequest
         return [
             'payment_proof' => 'nullable|file|mimes:jpeg,png,jpg,pdf|max:2048',
             'user_id' => 'required|exists:users,id',
-            'ammount' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0|not_regex:/-/',
             'income_date' => 'required|date',
             'description' => 'nullable|string',
         ];
