@@ -100,25 +100,35 @@
                                     <td>
                                         @if ($income->status === 'Pending')
                                             <span class="badge bg-warning">{{ $income->status }}</span>
-                                        @elseif($income->status === 'Accepted')
+                                        @elseif($income->status === 'Diterima')
                                             <span class="badge bg-success">{{ $income->status }}</span>
-                                        @elseif($income->status === 'Rejected')
+                                        @elseif($income->status === 'Ditolak')
                                             <span class="badge bg-danger">{{ $income->status }}</span>
                                         @endif
                                     </td>
                                     @hasrole('admin')
-                                        <td>
-                                            <div class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                    data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="javascript:void(0);"><i
-                                                            class="ri-pencil-line me-2"></i> Edit</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);"><i
-                                                            class="ri-delete-bin-7-line me-2"></i> Delete</a>
+                                        @if ($income->status === 'Pending')
+                                            <td>
+                                                <form action="{{ route('incomes.accept', $income->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary"
+                                                        type="button">Verifikasi</button>
+                                                </form>
+                                            </td>
+                                        @else
+                                            <td>
+                                                <div class="dropdown">
+                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                        data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                class="ri-pencil-line me-2"></i> Edit</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                class="ri-delete-bin-7-line me-2"></i> Delete</a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
+                                            </td>
+                                        @endif
                                     @endhasrole
                                 </tr>
                             @empty

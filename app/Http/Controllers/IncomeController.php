@@ -47,25 +47,32 @@ class IncomeController extends Controller
             'description' => $request->description,
         ]);
 
+        return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
+    }
+
+    public function accept(Income $income)
+    {
         if (Financial::count() === 0) {
-            $newAmount = Financial::sum('amount') + $request->amount;
+            $newAmount = Financial::sum('amount') + $income->amount;
 
             Financial::create([
                 'amount' => $newAmount,
-                'nominal' => $request->amount,
+                'nominal' => $income->amount,
                 'transaction_type' => 'Pemasukan',
             ]);
         } else {
-            $newAmount = Financial::latest('id')->first()->amount + $request->amount;
+            $newAmount = Financial::latest('id')->first()->amount + $income->amount;
 
             Financial::create([
                 'amount' => $newAmount,
-                'nominal' => $request->amount,
+                'nominal' => $income->amount,
                 'transaction_type' => 'Pemasukan',
             ]);
         }
 
-        return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
+        $income->status = 'Diterima';
+        $income->save();
+        return redirect()->route('incomes')->with('success', 'Berhasil membayar uang kas');
     }
 
     /**
