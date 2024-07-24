@@ -44,23 +44,33 @@
 
 
                     <div class="row g-6">
-                        @if (session('success'))
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <div class="col-12">
+                            @if (session('success'))
+                            <div class="alert alert-solid-success alert-dismissible d-flex align-items-center shadow-sm" role="alert">
+                                <span class="alert-icon rounded">
+                                    <i class="ri-checkbox-circle-line ri-22px"></i>
+                                </span>
                                 <strong> {{ session('success') }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                            </div>
-                        @endif
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                                        aria-hidden="true">
 
-                        @if (session('error'))
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong> {{ session('error') }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
                                     </button>
                             </div>
-                        @endif
+                            @endif
+
+                            @if (session('error'))
+                            <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm" role="alert">
+                                <span class="alert-icon rounded">
+                                    <i class="ri-checkbox-circle-line ri-22px"></i>
+                                </span>
+                                <strong> {{ session('error') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                                        aria-hidden="true">
+
+                                    </button>
+                            </div>
+                            @endif
+                        </div>
                         @yield('content')
                     </div>
 

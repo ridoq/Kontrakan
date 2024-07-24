@@ -14,3 +14,14 @@
 <script src="../../assets/js/main.js"></script>
 <!-- Page JS -->
 <script src="../../assets/js/dashboards-analytics.js"></script>
+<script>
+    function formatPhoneNumber() {
+        let input = document.getElementById('phone-number-mask');
+        let value = input.value.replace(/\D/g, '');
+
+        // Add space every 4 characters
+        let formattedValue = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+
+        input.value = formattedValue.trim(); // Trim any leading/trailing spaces
+    }
+</script>

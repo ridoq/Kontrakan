@@ -12,7 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $members = User::role('member')->get();
+        $members = User::role('member')->latest()->paginate(10);
         return view('members.index', compact("members"));
     }
 
@@ -29,7 +29,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        User::create($request->all())->assignRole('member');
+        User::create([
+            'name'=>$request->name,
+            'address'=>$request->address,
+            'phone_number'=>$request->phone_number,
+            'email'=>$request->email . '@gmail.com',
+            'password'=>$request->password,
+        ])->assignRole('member');
         return redirect()->route('members')->with('success', 'Berhasil menambah anggota baru.');
     }
 
