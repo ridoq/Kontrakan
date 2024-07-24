@@ -20,3 +20,4 @@ Route::middleware('auth')->group(function () {
 
 require_once __DIR__ . '/chandra.php';
 require_once __DIR__ . '/ridoq.php';
+require_once __DIR__ . '/juhan.php';
