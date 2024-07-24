@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Income;
 use App\Http\Requests\StoreIncomeRequest;
 use App\Http\Requests\UpdateIncomeRequest;
+use App\Models\Financial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,9 +35,10 @@ class IncomeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreIncomeRequest $request)
     {
         $paymentProof = $request->payment_proof->store('payment_proofs', 'public');
+
         Income::create([
             'payment_proof' => $paymentProof,
             'user_id' => $request->user_id,
@@ -44,6 +46,15 @@ class IncomeController extends Controller
             'income_date' => $request->income_date,
             'description' => $request->description,
         ]);
+
+        $newAmount = Financial::sum('amount') + $request->amount;
+
+        Financial::create([
+            'amount' => $newAmount,
+            'nominal' => $request->amount,
+            'transaction_type' => 'Pemasukan',
+        ]);
+
         return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
     }
 

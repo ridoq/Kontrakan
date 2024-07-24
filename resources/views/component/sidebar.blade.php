@@ -186,7 +186,7 @@
             <span class="menu-header-text" data-i18n="Apps & Pages">Keuangan</span>
         </li>
         <li class="menu-item">
-            <a href="app-email.html" class="menu-link">
+            <a href="{{ url('keuangan') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cash-multiple"></i>
                 <div>Info Kas</div>
             </a>
