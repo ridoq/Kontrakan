@@ -176,32 +176,28 @@
                 <div>Daftar anggota</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="app-chat.html" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-account-cash"></i>
-                <div>Kas Anggota</div>
-            </a>
-        </li>
         <li class="menu-header mt-5">
             <span class="menu-header-text" data-i18n="Apps & Pages">Keuangan</span>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('financials') ? 'active' : '' }}">
             <a href="{{ url('keuangan') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cash-multiple"></i>
                 <div>Info Kas</div>
             </a>
         </li>
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('incomes') ? 'active' : '' }}">
             <a href="{{ url('bayarkas') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cash-plus"></i>
                 <div>Bayar Kas</div>
             </a>
         </li>
-        <li class="menu-item">
-            <a href="app-chat.html" class="menu-link">
-                <i class="menu-icon tf-icons mdi mdi-cash-minus"></i>
-                <div data-i18n="Chat">Pengeluaran</div>
-            </a>
-        </li>
+        @hasrole('admin')
+            <li class="menu-item {{ request()->routeIs('expenses') ? 'active' : '' }}">
+                <a href="{{ url('pengeluaran') }}" class="menu-link">
+                    <i class="menu-icon tf-icons mdi mdi-cash-minus"></i>
+                    <div data-i18n="Chat">Pengeluaran</div>
+                </a>
+            </li>
+        @endhasrole
     </ul>
 </aside>
