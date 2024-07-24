@@ -42,8 +42,8 @@
                                                         class="ri-user-line"></i></span>
                                                 <div class="form-floating form-floating-outline">
                                                     <input type="text" class="form-control" id="basic-addon11"
-                                                        placeholder="Ridoqq" aria-label="Username"
-                                                        aria-describedby="basic-addon11" name="name"/>
+                                                        placeholder="Example: Jhon Doe" aria-label="Username"
+                                                        aria-describedby="basic-addon11" name="name" />
                                                     <label for="basic-addon11">Nama Lengkap</label>
                                                 </div>
                                             </div>
@@ -52,11 +52,12 @@
                                         <div class="col-6 mb-5">
                                             <div class="input-group input-group-merge">
                                                 <span id="basic-icon-default-fullname2"
-                                                    class="input-group-text pointer-events-none"><i class="ri-mail-line"></i></span>
+                                                    class="input-group-text pointer-events-none"><i
+                                                        class="ri-mail-line"></i></span>
                                                 <div class="form-floating form-floating-outline">
                                                     <input type="text" class="form-control" id="basic-addon13"
-                                                        placeholder="ridoq123" aria-label="Recipient's username"
-                                                        aria-describedby="basic-addon13" name="email"/>
+                                                        placeholder="example" aria-label="Recipient's username"
+                                                        aria-describedby="basic-addon13" name="email" />
                                                     <label for="basic-addon13">Email</label>
                                                 </div>
                                                 <span class="input-group-text">@gmail.com</span>
@@ -68,7 +69,8 @@
                                                 <span class="input-group-text"><i class="ri-phone-line"></i> (+62)</span>
                                                 <div class="form-floating form-floating-outline">
                                                     <input type="text" id="phone-number-mask"
-                                                        class="form-control phone-number-mask" placeholder="895422414260" oninput="formatPhoneNumber()" name="phone_number"/>
+                                                        class="form-control phone-number-mask" placeholder="895422414260"
+                                                        oninput="formatPhoneNumber()" name="phone_number" />
                                                     <label for="phone-number-mask">Nomor Telepon</label>
                                                 </div>
                                             </div>
@@ -81,7 +83,9 @@
                                                         class="input-group-text"><i class="ri-lock-line"></i></span>
                                                     <div class=" form-floating form-floating-outline">
                                                         @php
-                                                            $pw = 'user_' . str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+                                                            $pw =
+                                                                'user_' .
+                                                                str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
                                                         @endphp
                                                         <input type="hidden" name="password" value="{{ $pw }}">
                                                         <input type="password" class="form-control"
@@ -98,7 +102,8 @@
                                             <div class="input-group input-group-merge ">
                                                 <span class="input-group-text "><i class="ri-road-map-line"></i></span>
                                                 <div class="form-floating form-floating-outline">
-                                                    <textarea class="form-control h-px5" style="resize: none;height:80px;" name="address" aria-label="With textarea" placeholder="Lorem ipsum"></textarea>
+                                                    <textarea class="form-control h-px5" style="resize: none;height:80px;" name="address" aria-label="With textarea"
+                                                        placeholder="Lorem ipsum"></textarea>
                                                     <label>Alamat</label>
                                                 </div>
                                             </div>

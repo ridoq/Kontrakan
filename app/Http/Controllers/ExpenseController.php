@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Expense;
 use App\Http\Requests\StoreExpenseRequest;
 use App\Http\Requests\UpdateExpenseRequest;
+use App\Models\Financial;
+use App\Models\Income;
+use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
@@ -13,7 +16,7 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        $expenses = Expense::all();
+        $expenses = Expense::latest()->paginate(10);
         return view('expenses.index', compact('expenses'));
     }
 
@@ -28,9 +31,19 @@ class ExpenseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreExpenseRequest $request)
+    public function store(Request $request)
     {
-        //
+        Expense::create($request->all());
+
+        $newAmount = Financial::latest('id')->first()->amount - $request->amount;
+
+        Financial::create([
+            'amount' => $newAmount,
+            'nominal' => $request->amount,
+            'transaction_type' => 'Pengeluaran',
+        ]);
+
+        return redirect()->route('expenses')->with('success', 'Berhasil membuat data pengeluaran');
     }
 
     /**

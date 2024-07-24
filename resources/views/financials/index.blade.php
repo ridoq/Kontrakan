@@ -8,7 +8,7 @@
                     <th>No</th>
                     <th>Total Kas</th>
                     <th>Tipe Transaksi</th>
-                    <th>Nominal Pemasukan</th>
+                    <th>Nominal</th>
                     <th>Tanggal Perubahan</th>
                     @hasrole('admin')
                         <th>Aksi</th>

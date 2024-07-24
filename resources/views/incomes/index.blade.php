@@ -76,6 +76,7 @@
                                 <th>Total</th>
                                 <th>Tanggal Pembayaran</th>
                                 <th>Description</th>
+                                <th>Status</th>
                                 @hasrole('admin')
                                     <th>Aksi</th>
                                 @endhasrole
@@ -92,9 +93,19 @@
                                             alt="error">
                                     </td>
                                     <td>{{ $income->users->name }}</td>
-                                    <td>{{ $income->amount }}</td>
-                                    <td>{{ $income->income_date }}</td>
+                                    <td>{{ 'Rp. ' . number_format($income->amount) }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($income->income_date)->locale('id')->translatedFormat('l, d F Y') }}
+                                    </td>
                                     <td>{{ $income->description }}</td>
+                                    <td>
+                                        @if ($income->status === 'Pending')
+                                            <span class="badge bg-warning">{{ $income->status }}</span>
+                                        @elseif($income->status === 'Accepted')
+                                            <span class="badge bg-success">{{ $income->status }}</span>
+                                        @elseif($income->status === 'Rejected')
+                                            <span class="badge bg-danger">{{ $income->status }}</span>
+                                        @endif
+                                    </td>
                                     @hasrole('admin')
                                         <td>
                                             <div class="dropdown">

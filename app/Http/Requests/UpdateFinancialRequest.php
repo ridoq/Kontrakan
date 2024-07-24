@@ -22,8 +22,8 @@ class UpdateFinancialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'amount' => 'required|numeric|min:0',
-            'nominal' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0|not_regex:/-/',
+            'nominal' => 'required|numeric|min:0|not_regex:/-/',
             'transaction_type' => 'required|string|max:255',
         ];
     }

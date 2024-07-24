@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('amount', 15, 2);
             $table->date('income_date')->default(now());
             $table->text('description')->nullable();
+            $table->string('status')->default('Pending');
             $table->timestamps();
         });
     }

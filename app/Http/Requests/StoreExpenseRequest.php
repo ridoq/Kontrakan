@@ -23,7 +23,7 @@ class StoreExpenseRequest extends FormRequest
     {
         return [
             'user_id' => 'required|exists:users,id',
-            'amount' => 'required|numeric|min:0',
+            'amount' => 'required|numeric|min:0|not_regex:/-/',
             'expense_date' => 'required|date',
             'description' => 'nullable|string',
         ];
