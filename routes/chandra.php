@@ -10,4 +10,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/keuangan', [App\Http\Controllers\FinancialController::class, 'index'])->name('financials');
     Route::get('/pengeluaran', [App\Http\Controllers\ExpenseController::class, 'index'])->name('expenses');
     Route::post('/pengeluaran/tambah', [App\Http\Controllers\ExpenseController::class, 'store'])->name('expenses.store');
+    Route::put('/anggota/update/{anggota}', [App\Http\Controllers\UserController::class, 'update'])->name('members.update');
 });

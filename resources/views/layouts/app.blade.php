@@ -46,31 +46,50 @@
                     <div class="row g-6">
                         <div class="col-12">
                             @if (session('success'))
-                            <div class="alert alert-solid-success alert-dismissible d-flex align-items-center shadow-sm" role="alert">
-                                <span class="alert-icon rounded">
-                                    <i class="ri-checkbox-circle-line ri-22px"></i>
-                                </span>
-                                <strong> {{ session('success') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
-                                        aria-hidden="true">
+                                <div class="alert alert-solid-success alert-dismissible d-flex align-items-center shadow-sm"
+                                    role="alert">
+                                    <span class="alert-icon rounded">
+                                        <i class="ri-checkbox-circle-line ri-22px"></i>
+                                    </span>
+                                    <strong> {{ session('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close" aria-hidden="true">
 
-                                    </button>
-                            </div>
+                                        </button>
+                                </div>
                             @endif
 
                             @if (session('error'))
-                            <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm" role="alert">
-                                <span class="alert-icon rounded">
-                                    <i class="ri-checkbox-circle-line ri-22px"></i>
-                                </span>
-                                <strong> {{ session('error') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
-                                        aria-hidden="true">
+                                <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
+                                    role="alert">
+                                    <span class="alert-icon rounded">
+                                        <i class="ri-checkbox-circle-line ri-22px"></i>
+                                    </span>
+                                    <strong> {{ session('error') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close" aria-hidden="true">
 
-                                    </button>
-                            </div>
+                                        </button>
+                                </div>
+                            @endif
+
+                            @if ($errors->any())
+                                @foreach ($errors->all() as $error)
+                                    <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
+                                        role="alert">
+                                        <span class="alert-icon rounded">
+                                            <i class="ri-checkbox-circle-line ri-22px"></i>
+                                        </span>
+                                        <strong> {{ $error }}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close" aria-hidden="true">
+
+                                            </button>
+                                    </div>
+                                @endforeach
                             @endif
                         </div>
+
                         @yield('content')
                     </div>
 

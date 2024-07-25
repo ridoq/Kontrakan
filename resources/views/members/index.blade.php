@@ -56,11 +56,10 @@
                                                         class="ri-mail-line"></i></span>
                                                 <div class="form-floating form-floating-outline">
                                                     <input type="text" class="form-control" id="basic-addon13"
-                                                        placeholder="example" aria-label="Recipient's username"
+                                                        placeholder="example@gmail.com" aria-label="Recipient's username"
                                                         aria-describedby="basic-addon13" name="email" />
                                                     <label for="basic-addon13">Email</label>
                                                 </div>
-                                                <span class="input-group-text">@gmail.com</span>
                                             </div>
                                         </div>
 
@@ -68,9 +67,9 @@
                                             <div class="input-group input-group-merge">
                                                 <span class="input-group-text"><i class="ri-phone-line"></i> (+62)</span>
                                                 <div class="form-floating form-floating-outline">
-                                                    <input type="text" id="phone-number-mask"
-                                                        class="form-control phone-number-mask" placeholder="895422414260"
-                                                        oninput="formatPhoneNumber()" name="phone_number" />
+                                                    <input type="number" id="phone-number-mask"
+                                                        class="form-control phone-number-mask" placeholder="8123456789"
+                                                        name="phone_number" />
                                                     <label for="phone-number-mask">Nomor Telepon</label>
                                                 </div>
                                             </div>
@@ -151,8 +150,12 @@
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                                     data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="javascript:void(0);"><i
-                                                            class="ri-pencil-line me-2"></i> Edit</a>
+                                                    {{-- Edit Button --}}
+                                                    <button type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#editModal{{ $member->id }}"><i
+                                                            class="ri-pencil-line me-2"></i>
+                                                        Edit</button>
+                                                    {{-- Edit Button --}}
                                                     <a class="dropdown-item" href="javascript:void(0);"><i
                                                             class="ri-delete-bin-7-line me-2"></i> Delete</a>
                                                 </div>
@@ -160,9 +163,112 @@
                                         </td>
                                     @endhasrole
                                 </tr>
+                                <!-- Modal Edit -->
+                                <div class="modal fade" id="editModal{{ $member->id }}" tabindex="-1"
+                                    aria-labelledby="editModalLabel{{ $member->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editModalLabel{{ $member->id }}">Edit
+                                                    {{ $member->name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('members.update', $member->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="row">
+                                                        <div class="col-12 mb-5">
+                                                            <div class="input-group input-group-merge">
+                                                                <span id="basic-icon-default-fullname2"
+                                                                    class="input-group-text"><i
+                                                                        class="ri-user-line"></i></span>
+                                                                <div class="form-floating form-floating-outline">
+                                                                    <input type="text" class="form-control"
+                                                                        id="basic-addon11" placeholder="Example: Jhon Doe"
+                                                                        aria-label="Username"
+                                                                        aria-describedby="basic-addon11" name="name"
+                                                                        value="{{ $member->name }}" />
+                                                                    <label for="basic-addon11">Nama Lengkap</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-6 mb-5">
+                                                            <div class="input-group input-group-merge">
+                                                                <span id="basic-icon-default-fullname2"
+                                                                    class="input-group-text pointer-events-none"><i
+                                                                        class="ri-mail-line"></i></span>
+                                                                <div class="form-floating form-floating-outline">
+                                                                    <input type="text" class="form-control"
+                                                                        id="basic-addon13" placeholder="example"
+                                                                        aria-label="Recipient's username"
+                                                                        aria-describedby="basic-addon13" name="email"
+                                                                        value="{{ $member->email }}" />
+                                                                    <label for="basic-addon13">Email</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-6 mb-5">
+                                                            <div class="input-group input-group-merge">
+                                                                <span class="input-group-text"><i
+                                                                        class="ri-phone-line"></i> (+62)</span>
+                                                                <div class="form-floating form-floating-outline">
+                                                                    <input type="text" id="phone-number-mask"
+                                                                        class="form-control phone-number-mask"
+                                                                        placeholder="8123456789" name="phone_number"
+                                                                        value="{{ $member->phone_number }}" />
+                                                                    <label for="phone-number-mask">Nomor Telepon</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {{-- <div class="col-12 mb-5">
+                                                            <div class="input-group input-group-merge">
+                                                                <span id="basic-icon-default-fullname2"
+                                                                    class="input-group-text"><i
+                                                                        class="ri-user-line"></i></span>
+                                                                <div class="form-floating form-floating-outline">
+                                                                    <input type="text" class="form-control"
+                                                                        id="basic-addon11" placeholder="********"
+                                                                        aria-label="Username"
+                                                                        aria-describedby="basic-addon11" name="password"
+                                                                        autocomplete="new-password"
+                                                                        value="{{ $member->password }}" />
+                                                                    <label for="basic-addon11">Password: </label>
+                                                                </div>
+                                                            </div>
+                                                        </div> --}}
+
+                                                        <div class="col-12 mb-5">
+                                                            <div class="input-group input-group-merge ">
+                                                                <span class="input-group-text "><i
+                                                                        class="ri-road-map-line"></i></span>
+                                                                <div class="form-floating form-floating-outline">
+                                                                    <textarea class="form-control h-px5" style="resize: none;height:80px;" name="address" aria-label="With textarea"
+                                                                        placeholder="Lorem ipsum">{{ $member->address }}</textarea>
+                                                                    <label>Alamat</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 mb-3 mt-5 d-flex justify-content-end">
+                                                        <button type="button" class="btn btn-secondary me-2"
+                                                            data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Modal Edit -->
                             @empty
                                 <tr>
-                                    <th class="row">Member Not Found</th>
+                                    <th class="row">Anggota tidak ditemukan</th>
                                 </tr>
                             @endforelse
                         </tbody>

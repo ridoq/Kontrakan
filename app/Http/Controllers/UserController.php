@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -27,15 +29,9 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest   $request)
     {
-        User::create([
-            'name'=>$request->name,
-            'address'=>$request->address,
-            'phone_number'=>$request->phone_number,
-            'email'=>$request->email . '@gmail.com',
-            'password'=>$request->password,
-        ])->assignRole('member');
+        User::create($request->all())->assignRole('member');
         return redirect()->route('members')->with('success', 'Berhasil menambah anggota baru.');
     }
 
@@ -58,9 +54,15 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $anggota)
     {
-        //
+        $anggota->update([
+            'name' => $request->name,
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+        ]);
+        return redirect()->route('members')->with('success', 'Berhasil mengubah data anggota.');
     }
 
     /**
