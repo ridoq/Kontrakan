@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Income;
 use App\Http\Requests\StoreIncomeRequest;
 use App\Http\Requests\UpdateIncomeRequest;
 use App\Models\Financial;
+use App\Models\Income;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,11 +18,44 @@ class IncomeController extends Controller
     public function index()
     {
         if (Auth::user()->hasRole('member')) {
-            $incomes = Income::where('user_id', Auth::user()->id)->latest()->paginate(10);
+            $incomes = Income::where('user_id', Auth::user()->id)->latest()->paginate(5);
         } else {
             $incomes = Income::latest()->paginate(10);
         }
-        return view('incomes.index', compact('incomes'));
+
+        //UserIncomeLogic
+        {
+            $totalIncome = Income::where('user_id', Auth::user()->id)
+                ->where('status', 'diterima')
+                ->sum('amount');
+
+            //KAS 15 RIBU
+            $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d');
+            // dd($startDate);
+            $currentDate = date('Y-m-d');
+            $startDateTimestamp = strtotime($startDate);
+            $currentDateTimestamp = strtotime($currentDate);
+            $daysDifference = ($currentDateTimestamp - $startDateTimestamp) / (60 * 60 * 24);
+            $dailyPayment = 15000;
+            $totalPaymentExpected = $daysDifference * $dailyPayment;
+
+
+            if ($totalIncome < $totalPaymentExpected) {
+                $outstandingPayment = 'Rp. ' . number_format($totalPaymentExpected - $totalIncome);
+            } else {
+                $outstandingPayment = "Rp. " . 0; // Jika totalIncome lebih besar atau sama dengan totalPaymentExpected
+            }
+        };
+
+        return view('incomes.index', compact('incomes', 'outstandingPayment', 'totalIncome'));
+    }
+
+
+    public function cancel(Income $income)
+    {
+
+        $income->delete();
+        return redirect()->route('incomes')->with('success', 'Pembayaran berhasil dibatalkan');
     }
 
     /**
@@ -73,6 +107,14 @@ class IncomeController extends Controller
         $income->status = 'Diterima';
         $income->save();
         return redirect()->route('incomes')->with('success', 'Berhasil membayar uang kas');
+    }
+
+    public function reject(Income $income)
+    {
+        $user = User::find($income->user_id);
+        $income->status = 'Ditolak';
+        $income->save();
+        return redirect()->route('incomes')->with('error', 'Pembayaran dari ' . $user->name . ' Ditolak');
     }
 
     /**

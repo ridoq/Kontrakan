@@ -1,13 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="col-7">
+        <div class="card bg-warning-subtle">
+            <div class="card-header">
+                <small class="card-title">Total Uang Kas yang belum dibayar</small>
+                <h2 class="mt-5">{{ $outstandingPayment }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="card bg-success-subtle">
+            <div class="card-header">
+                <small class="card-title">Total Uang Kas yang sudah Dibayar</small>
+                <h2 class="mt-5">{{ 'Rp. ' . number_format($totalIncome) }}</h2>
+            </div>
+        </div>
+    </div>
+
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Kas</h3>
+                <h3 class="card-title">History pembayaran</h3>
             </div>
             <div class="card-body">
-                <div class="d-flex justify-content-between py-0 mb-4">
+                <div class="d-flex justify-content-between py-0 mb-5">
                     <form action="" method="GET" class="d-flex w-50 me-4">
                         @csrf
                         <div class="d-flex align-items-center border rounded px-3 w-100">
@@ -18,7 +35,7 @@
                     </form>
                     @hasrole('member')
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Tambah Data
+                            Bayar Kas
                         </button>
                     @endhasrole
                 </div>
@@ -31,38 +48,78 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
-                            <form action="{{ route('incomes.store') }}" enctype="multipart/form-data" method="POST">
-                                @csrf
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Bukti Pembayaran:</label>
-                                        <input type="file" class="form-control" id="recipient-name" name="payment_proof">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Nama Pembayar:</label>
-                                        <input type="text" disabled class="form-control" id="recipient-name"
-                                            value="{{ Auth::user()->name }}">
-                                        <input type="hidden" class="form-control" id="recipient-name" name="user_id"
-                                            value="{{ Auth::user()->id }}">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Total Bayar:</label>
-                                        <input type="number" class="form-control" id="recipient-name" name="amount">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Tanggal Pembayaran:</label>
-                                        <input type="date" class="form-control" id="recipient-name" name="income_date">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Description: (Optional)</label>
-                                        <input type="text" class="form-control" id="recipient-name" name="description">
-                                    </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <form action="{{ route('incomes.store') }}" enctype="multipart/form-data"
+                                        method="POST">
+                                        @csrf
+                                        <div class="col-12 mb-5 mt-3">
+                                            <div class="input-group input-group-merge">
+                                                <div class="form-floating form-floating-outline">
+                                                    <input type="hidden" class="form-control" id="basic-addon11"
+                                                        placeholder="Example: Jhon Doe" aria-label="Username"
+                                                        aria-describedby="basic-addon11" name="user_id"
+                                                        value="{{ Auth::user()->id }}" />
+                                                    <input type="text" class="form-control" id="basic-addon11"
+                                                        placeholder="Example: Jhon Doe" aria-label="Username"
+                                                        aria-describedby="basic-addon11" value="{{ Auth::user()->name }}"
+                                                        disabled />
+                                                    <label for="basic-addon11">Nama Pembayar:</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-5 mt-3">
+                                            <div class="input-group input-group-merge">
+                                                <div class="form-floating form-floating-outline">
+                                                    <input type="file" class="form-control" id="basic-addon11"
+                                                        name="payment_proof" />
+                                                    <label for="basic-addon11">Bukti Pembayaran</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-5 mt-3">
+                                            <div class="input-group input-group-merge">
+                                                <div class="form-floating form-floating-outline">
+                                                    <select name="amount" id="" class="form-select">
+                                                        <option value="15000" selected>Rp. 15,000</option>
+                                                        <option value="30000" >Rp. 30,000</option>
+                                                        <option value="45000">Rp. 45,000</option>
+                                                        <option value="60000">Rp. 60,000</option>
+                                                        <option value="75000">Rp. 75,000</option>
+                                                        <option value="90000">Rp. 90,000</option>
+                                                        <option value="105000">Rp. 105,000</option>
+                                                    </select>
+                                                    <label for="basic-addon11">Total bayar</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-5 mt-3">
+                                            <div class="input-group input-group-merge">
+                                                <div class="form-floating form-floating-outline">
+                                                    <input type="date" name="income_date"
+                                                        value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                                        class="form-control">
+                                                    <label for="basic-addon11">Tanggal Pembayaran</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-5 mt-3">
+                                            <div class="input-group input-group-merge">
+                                                <div class="form-floating form-floating-outline">
+                                                    <textarea name="description" class="form-control" style="resize: none;height: 150px;" id=""
+                                                        placeholder="Masukkan Deskripsi pembayaran"></textarea>
+                                                    <label for="basic-addon11">Deskripsi (Opsional)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-5 d-flex justify-content-end">
+                                            <button type="button" class="btn btn-secondary me-2"
+                                                data-bs-dismiss="modal">Batal</button>
+                                            <button type="submit" class="btn btn-primary">Bayar Sekarang</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-primary">Bayar Sekarang</button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,14 +129,14 @@
                             <tr>
                                 <th>No</th>
                                 <th>Bukti Pembayaran</th>
-                                <th>Nama Pembayar</th>
+                                @hasrole('admin')
+                                    <th>Nama Pembayar</th>
+                                @endhasrole
                                 <th>Total</th>
                                 <th>Tanggal Pembayaran</th>
                                 <th>Description</th>
                                 <th>Status</th>
-                                @hasrole('admin')
-                                    <th>Aksi</th>
-                                @endhasrole
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -89,10 +146,12 @@
                                     <th scope="row">
                                         {{ $index + 1 + ($incomes->currentPage() - 1) * $incomes->perPage() }} </th>
                                     <td>
-                                        <img style="width: 200px" src="{{ asset('storage/' . $income->payment_proof) }}"
+                                        <img style="width: 120px;box-shadow: 0px 0px 10px rgba(0,0,0,.2)" src="{{ asset('storage/' . $income->payment_proof) }}"
                                             alt="error">
                                     </td>
-                                    <td>{{ $income->users->name }}</td>
+                                    @hasrole('admin')
+                                        <td>{{ $income->users->name }}</td>
+                                    @endhasrole
                                     <td>{{ 'Rp. ' . number_format($income->amount) }}</td>
                                     <td>{{ \Carbon\Carbon::parse($income->income_date)->locale('id')->translatedFormat('l, d F Y') }}
                                     </td>
@@ -114,6 +173,11 @@
                                                     <button type="submit" class="btn btn-primary"
                                                         type="button">Verifikasi</button>
                                                 </form>
+                                                <form action="{{ route('incomes.reject', $income->id) }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger"
+                                                        type="button">Reject</button>
+                                                </form>
                                             </td>
                                         @else
                                             <td>
@@ -127,6 +191,27 @@
                                                                 class="ri-delete-bin-7-line me-2"></i> Delete</a>
                                                     </div>
                                                 </div>
+                                            </td>
+                                        @endif
+                                    @endhasrole
+                                    @hasrole('member')
+                                        @if ($income->status === 'Pending')
+                                            <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
+                                                        <div class="dropdown-menu">
+                                                            <form action="{{ route('incomes.cancel', $income->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="dropdown-item"><i
+                                                                    class="ri-delete-bin-7-line me-2"></i>Cancel</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                            </td>
+                                        @else
+                                            <td>
                                             </td>
                                         @endif
                                     @endhasrole

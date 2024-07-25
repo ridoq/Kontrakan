@@ -25,7 +25,7 @@ class StoreIncomeRequest extends FormRequest
             'payment_proof' => 'required|file|mimes:jpeg,png,jpg,pdf|max:2048',
             'user_id' => 'required|exists:users,id',
             'amount' => 'required|numeric|min:0|not_regex:/-/',
-            'income_date' => 'required|date',
+            'income_date' => 'required|date|before:tomorrow',
             'description' => 'nullable|string',
         ];
     }
