@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('income_date')->default(now());
             $table->text('description')->nullable();
             $table->string('status')->default('Pending');
+            $table->date('has_paid_until');
             $table->timestamps();
         });
     }

@@ -1,6 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="container d-flex gap-6" style="flex-wrap: wrap;">
+        @forelse ($members as $member)
+            @php
+                $latestIncome = $member->incomes->sortByDesc('has_paid_until')->first(); // Mendapatkan income terbaru
+                $hasPaidUntil = $latestIncome
+                    ? \Carbon\Carbon::parse($latestIncome->has_paid_until)->format('d F Y')
+                    : 'Belum ada data';
+            @endphp
+            <div class="card" style="width: 15rem; flex-shrink: 0">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $member->name }}</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's
+                        content.</p>
+                    <a href="#" class="btn btn-primary">{{ $hasPaidUntil }}</a>
+                </div>
+            </div>
+        @empty
+            <div class="">no</div>
+        @endforelse
+    </div>
+
     <div class="table-responsive text-nowrap">
         <table class="table">
             <thead>

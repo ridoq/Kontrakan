@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateIncomeRequest;
 use App\Models\Financial;
 use App\Models\Income;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,7 +32,6 @@ class IncomeController extends Controller
 
             //KAS 15 RIBU
             $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d');
-            // dd($startDate);
             $currentDate = date('Y-m-d');
             $startDateTimestamp = strtotime($startDate);
             $currentDateTimestamp = strtotime($currentDate);
@@ -73,12 +73,22 @@ class IncomeController extends Controller
     {
         $paymentProof = $request->payment_proof->store('payment_proofs', 'public');
 
+        $incomes = Income::where('user_id',$request->user_id)->get(); 
+
+        $dateNow = date('Y-m-d');
+        $incomeDate =
+        $latestIncome = $member->incomes->sortByDesc('has_paid_until')->first(); // Mendapatkan income terbaru
+        $hasPaidUntil = $latestIncome
+            ? \Carbon\Carbon::parse($latestIncome->has_paid_until)->format('d F Y')
+            : 'Belum ada data';
+
         Income::create([
             'payment_proof' => $paymentProof,
             'user_id' => $request->user_id,
             'amount' => $request->amount,
             'income_date' => $request->income_date,
             'description' => $request->description,
+            'has_paid_until' => $request->income_date,
         ]);
 
         return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
@@ -106,6 +116,12 @@ class IncomeController extends Controller
 
         $income->status = 'Diterima';
         $income->save();
+
+        $paid_day = $income->amount / 15000;
+        $incomeDate = Carbon::parse($income->has_paid_until);
+        $income->has_paid_until = $incomeDate->addDays($paid_day)->format('Y-m-d');
+        $income->save();
+
         return redirect()->route('incomes')->with('success', 'Berhasil membayar uang kas');
     }
 

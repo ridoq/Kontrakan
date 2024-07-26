@@ -15,10 +15,11 @@ class Income extends Model
         'amount',
         'income_date',
         'description',
+        'has_paid_until',
     ];
 
     public function users()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

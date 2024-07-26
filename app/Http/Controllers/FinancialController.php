@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Financial;
 use App\Http\Requests\StoreFinancialRequest;
 use App\Http\Requests\UpdateFinancialRequest;
+use App\Models\User;
 
 class FinancialController extends Controller
 {
@@ -13,8 +14,9 @@ class FinancialController extends Controller
      */
     public function index()
     {
+        $members = User::role('member')->with('incomes')->get();
         $financials = Financial::latest()->paginate(10);
-        return view("financials.index", compact("financials"));
+        return view("financials.index", compact("financials", "members"));
     }
 
     /**
