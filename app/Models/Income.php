@@ -15,6 +15,7 @@ class Income extends Model
         'amount',
         'income_date',
         'description',
+        'status',
     ];
 
     public function users()

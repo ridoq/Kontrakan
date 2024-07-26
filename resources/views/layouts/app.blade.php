@@ -14,83 +14,65 @@
     <!-- End Google Tag Manager (noscript) -->
 
     <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar  ">
-
+    <div class="layout-wrapper layout-content-navbar ">
         {{-- side bar --}}
         @include('component.sidebar')
-        {{-- /side bar --}}
-
-
-
         <!-- Layout container -->
-        <div class="layout-page">
-
-
-
-
-
+        <div class="layout-page ">
             <!-- Navbar -->
             @include('component.navbar')
-            <!-- / Navbar -->
-
-
-
             <!-- Content wrapper -->
-            <div class="content-wrapper">
-
+            <div class="content-wrapper ">
                 <!-- Content -->
-
                 <div class="container-xxl flex-grow-1 container-p-y">
-
-
-                    <div class="row g-10">
-                        <div class="col-12">
-                            @if (session('success'))
-                            <div class="alert alert-solid-success alert-dismissible d-flex align-items-center shadow-sm"
-                                role="alert">
-                                <span class="alert-icon rounded">
-                                    <i class="ri-checkbox-circle-line ri-22px"></i>
-                                </span>
-                                <strong> {{ session('success') }}</strong>
+                    <div class="row g-5">
+                        @if (session('success'))
+                            <div class="col-12">
+                                <div class="alert alert-solid-success alert-dismissible d-flex align-items-center shadow-sm"
+                                    role="alert">
+                                    <span class="alert-icon rounded">
+                                        <i class="ri-checkbox-circle-line ri-22px"></i>
+                                    </span>
+                                    <strong> {{ session('success') }}</strong>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
                                         aria-hidden="true">
 
                                     </button>
+                                </div>
                             </div>
-                            @endif
-                        </div>
-                        <div class="col-12">
-                            @if (session('error'))
+                        @endif
+                        @if (session('error'))
+                            <div class="col-12">
                                 <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
                                     role="alert">
                                     <span class="alert-icon rounded">
                                         <i class="ri-checkbox-circle-line ri-22px"></i>
                                     </span>
                                     <strong> {{ session('error') }}</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                            aria-label="Close" aria-hidden="true">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+                                        aria-hidden="true">
 
-                                        </button>
+                                    </button>
                                 </div>
-                            @endif
-                        </div>
-                        <div class="col-12">
-                            @if ($errors->any())
-                                @foreach ($errors->all() as $error)
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            @foreach ($errors->all() as $error)
+                                <div class="col-12">
                                     <div class="alert alert-solid-danger alert-dismissible d-flex align-items-center shadow-sm"
                                         role="alert">
                                         <span class="alert-icon rounded">
                                             <i class="ri-checkbox-circle-line ri-22px"></i>
                                         </span>
                                         <strong> {{ $error }}</strong>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close" aria-hidden="true">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close" aria-hidden="true">
 
-                                            </button>
+                                        </button>
                                     </div>
-                                @endforeach
-                            @endif
-                        </div>
+                                </div>
+                            @endforeach
+                        @endif
                         @yield('content')
                     </div>
 
