@@ -122,7 +122,7 @@ class IncomeController extends Controller
         $income->status = 'Diterima';
         $income->save();
 
-        $paid_day = $income->amount / 15000;
+        $paid_day = ($income->amount / 15000) - 1;
         $incomeDate = Carbon::parse($income->has_paid_until);
         $income->has_paid_until = $incomeDate->addDays($paid_day)->format('Y-m-d');
         $income->save();
