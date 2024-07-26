@@ -21,8 +21,13 @@ class IncomeController extends Controller
         if (Auth::user()->hasRole('member')) {
             $incomes = Income::where('user_id', Auth::user()->id)->latest()->paginate(5);
         } else {
-            $incomes = Income::latest()->paginate(10);
+            $incomes = Income::orderByRaw("CASE WHEN status = 'Pending' THEN 0 ELSE 1 END")
+                ->paginate(5);
         }
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'member');
+        })->get();
+
 
         //UserIncomeLogic
         {
@@ -47,7 +52,7 @@ class IncomeController extends Controller
             }
         };
 
-        return view('incomes.index', compact('incomes', 'outstandingPayment', 'totalIncome'));
+        return view('incomes.index', compact('incomes', 'outstandingPayment', 'users', 'totalIncome'));
     }
 
 
@@ -72,8 +77,9 @@ class IncomeController extends Controller
     public function store(StoreIncomeRequest $request)
     {
         $paymentProof = $request->payment_proof->store('payment_proofs', 'public');
+        if (Auth::user()->hasRole('admin')) {
 
-        $incomes = Income::where('user_id',$request->user_id)->get(); 
+        $incomes = Income::where('user_id',$request->user_id)->get();
 
         $dateNow = date('Y-m-d');
         $incomeDate =
