@@ -15,11 +15,7 @@ class Income extends Model
         'amount',
         'income_date',
         'description',
-<<<<<<< HEAD
         'has_paid_until',
-=======
-        'status',
->>>>>>> 6b7c9a3b3d212c2be641baf62f9a0e6a1fa262d6
     ];
 
     public function users()

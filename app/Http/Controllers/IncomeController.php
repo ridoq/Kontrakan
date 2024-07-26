@@ -18,16 +18,12 @@ class IncomeController extends Controller
      */
     public function index()
     {
+        $users = User::role('member')->get();
         if (Auth::user()->hasRole('member')) {
             $incomes = Income::where('user_id', Auth::user()->id)->latest()->paginate(5);
         } else {
-            $incomes = Income::orderByRaw("CASE WHEN status = 'Pending' THEN 0 ELSE 1 END")
-                ->paginate(5);
+            $incomes = Income::latest()->paginate(10);
         }
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'member');
-        })->get();
-
 
         //UserIncomeLogic
         {
@@ -48,11 +44,11 @@ class IncomeController extends Controller
             if ($totalIncome < $totalPaymentExpected) {
                 $outstandingPayment = 'Rp. ' . number_format($totalPaymentExpected - $totalIncome);
             } else {
-                $outstandingPayment = "Rp. " . 0; // Jika totalIncome lebih besar atau sama dengan totalPaymentExpected
+                $outstandingPayment = "Rp. " . 0;
             }
         };
 
-        return view('incomes.index', compact('incomes', 'outstandingPayment', 'users', 'totalIncome'));
+        return view('incomes.index', compact('incomes', 'outstandingPayment', 'totalIncome', 'users'));
     }
 
 
@@ -77,25 +73,28 @@ class IncomeController extends Controller
     public function store(StoreIncomeRequest $request)
     {
         $paymentProof = $request->payment_proof->store('payment_proofs', 'public');
-        if (Auth::user()->hasRole('admin')) {
 
-        $incomes = Income::where('user_id',$request->user_id)->get();
+        $lastIncome = Income::where('user_id', Auth::user()->id)->latest()->first();
 
-        $dateNow = date('Y-m-d');
-        $incomeDate =
-        $latestIncome = $member->incomes->sortByDesc('has_paid_until')->first(); // Mendapatkan income terbaru
-        $hasPaidUntil = $latestIncome
-            ? \Carbon\Carbon::parse($latestIncome->has_paid_until)->format('d F Y')
-            : 'Belum ada data';
-
-        Income::create([
-            'payment_proof' => $paymentProof,
-            'user_id' => $request->user_id,
-            'amount' => $request->amount,
-            'income_date' => $request->income_date,
-            'description' => $request->description,
-            'has_paid_until' => $request->income_date,
-        ]);
+        if ($lastIncome) {
+            Income::create([
+                'payment_proof' => $paymentProof,
+                'user_id' => $request->user_id,
+                'amount' => $request->amount,
+                'income_date' => $request->income_date,
+                'description' => $request->description,
+                'has_paid_until' => $lastIncome->has_paid_until,
+            ]);
+        } else {
+            Income::create([
+                'payment_proof' => $paymentProof,
+                'user_id' => $request->user_id,
+                'amount' => $request->amount,
+                'income_date' => $request->income_date,
+                'description' => $request->description,
+                'has_paid_until' => $request->income_date,
+            ]);
+        }
 
         return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
     }

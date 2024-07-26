@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="col-5">
-        <div class="card bg-success-subtle">
+        <div class="card bg-success-subtle"> 
             <div class="card-header" style="padding: 50px">
                 <small class="card-title">Total Uang Kas yang sudah Dibayar</small>
                 <h2 class="mt-5">{{ 'Rp. ' . number_format($totalIncome) }}</h2>
