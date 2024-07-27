@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+
+
+
 <div class="container d-flex gap-6" style="flex-wrap: wrap;">
     @forelse ($members as $member)
         @php
@@ -41,6 +44,7 @@
         <div class="">no</div>
     @endforelse
 </div>
+
 
 
 
@@ -97,12 +101,16 @@
     </div>
 
     <script>
-        VanillaTilt.init(document.querySelectorAll(".card[data-tilt]"), {
-            max: 25,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.5,
+            
+        document.addEventListener('DOMContentLoaded', function() {
+            VanillaTilt.init(document.querySelectorAll(".card[data-tilt]"), {
+                max: 25,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.5,
+            });
         });
     </script>
+    
     
 @endsection

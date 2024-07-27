@@ -15,6 +15,7 @@
 <!-- Page JS -->
 <script src="../../assets/js/dashboards-analytics.js"></script>
 <script>
+
     function formatPhoneNumber() {
         let input = document.getElementById('phone-number-mask');
         let value = input.value.replace(/\D/g, '');
