@@ -4,23 +4,45 @@
     <div class="container d-flex gap-6" style="flex-wrap: wrap;">
         @forelse ($members as $member)
             @php
-                $latestIncome = $member->incomes->sortByDesc('has_paid_until')->first();
-                $hasPaidUntil = $latestIncome ? \Carbon\Carbon::parse($latestIncome->has_paid_until)->format('d F Y') : 'Belum ada data';
+                $latestIncome = $member->incomes->where('status', 'Diterima')->sortByDesc('has_paid_until')->first();
+                $hasPaidUntil = $latestIncome ? \Carbon\Carbon::parse($latestIncome->has_paid_until) : null;
             @endphp
             <div class="card" style="width: 15rem; flex-shrink: 0">
                 <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title">{{ $member->name }}</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.</p>
-                    <a href="#" class="btn btn-primary">{{ $hasPaidUntil }}</a>
+                    <p class="card-text">
+                        @if ($hasPaidUntil && $hasPaidUntil->isToday())
+                            Telah membayar kas hari ini
+                            <br>
+                            <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
+                        @elseif ($hasPaidUntil && $hasPaidUntil->eq(today()->addDay()))
+                            Telah membayar kas hari ini dan hari esok
+                            <br>
+                            <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
+                        @elseif ($hasPaidUntil && $hasPaidUntil->gte(today()->addDays(2)))
+                            Telah membayar kas sampai hari
+                            <br>
+                            <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
+                        @else
+                            <strong>Belum membayar kas hari ini</strong>
+                        @endif
+                    </p>
+                    @if (
+                        $hasPaidUntil &&
+                            ($hasPaidUntil->isToday() || $hasPaidUntil->eq(today()->addDay()) || $hasPaidUntil->gte(today()->addDays(2))))
+                        <span class="badge bg-success">Naisu Guachamole</span>
+                    @else
+                        <span class="badge bg-danger">Dibayar dong Guachamole</span>
+                    @endif
                 </div>
             </div>
         @empty
             <div class="">no</div>
         @endforelse
     </div>
+
+
 
     <div class="table-responsive text-nowrap">
         <table class="table">

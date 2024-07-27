@@ -122,11 +122,19 @@ class IncomeController extends Controller
         $income->status = 'Diterima';
         $income->save();
 
-        $paid_day = ($income->amount / 15000) - 1;
+        $paid_day = ($income->amount / 15000);
         $incomeDate = Carbon::parse($income->has_paid_until);
         $income->has_paid_until = $incomeDate->addDays($paid_day)->format('Y-m-d');
         $income->save();
 
+        $paid_days = floor($income->amount / 15000);
+        $incomeDate = Carbon::parse($income->has_paid_until);
+
+        // if ($incomeDate->lt(Carbon::today()) || $incomeDate->isToday()) {
+        //     $income->has_paid_until = today()->addDays($paid_days - 1)->format('Y-m-d');
+        // } else {
+        //     $income->has_paid_until = $incomeDate->addDays($paid_days)->format('Y-m-d');
+        // }
         return redirect()->route('incomes')->with('success', 'Berhasil membayar uang kas');
     }
 
