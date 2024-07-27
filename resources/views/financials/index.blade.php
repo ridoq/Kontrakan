@@ -4,14 +4,8 @@
     <div class="container d-flex gap-6" style="flex-wrap: wrap;">
         @forelse ($members as $member)
             @php
-<<<<<<< HEAD
                 $latestIncome = $member->incomes->where('status', 'Diterima')->sortByDesc('has_paid_until')->first();
                 $hasPaidUntil = $latestIncome ? \Carbon\Carbon::parse($latestIncome->has_paid_until) : null;
-=======
-                $latestIncome = App\Models\Income::where('user_id', $member->id)->latest('created_at')->first();
-                // $latestIncome = $member->incomes->sortByDesc('has_paid_until')->first();
-                $hasPaidUntil = $latestIncome ? \Carbon\Carbon::parse($latestIncome->has_paid_until)->format('d F Y') : 'Belum ada data';
->>>>>>> 13865318cd840fbaf82fe7d303f8e91d3e712504
             @endphp
             <div class="card" style="width: 15rem; flex-shrink: 0">
                 <img src="..." class="card-img-top" alt="...">
