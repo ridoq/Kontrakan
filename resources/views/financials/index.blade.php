@@ -4,7 +4,8 @@
     <div class="container d-flex gap-6" style="flex-wrap: wrap;">
         @forelse ($members as $member)
             @php
-                $latestIncome = $member->incomes->sortByDesc('has_paid_until')->first();
+                $latestIncome = App\Models\Income::where('user_id', $member->id)->latest('created_at')->first();
+                // $latestIncome = $member->incomes->sortByDesc('has_paid_until')->first();
                 $hasPaidUntil = $latestIncome ? \Carbon\Carbon::parse($latestIncome->has_paid_until)->format('d F Y') : 'Belum ada data';
             @endphp
             <div class="card" style="width: 15rem; flex-shrink: 0">
