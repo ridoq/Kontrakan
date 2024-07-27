@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
+            'photo_profile' => 'photoProfile/atmin.png',
             'name' => 'admin',
             'address' => '.....',
             'phone_number' => '123123123',
@@ -22,6 +23,7 @@ class UserSeeder extends Seeder
         ])->assignRole('admin');
 
         User::create([
+            'photo_profile' => 'photoProfile/member.jpg',
             'name' => 'member',
             'address' => '.....',
             'phone_number' => '123456789',

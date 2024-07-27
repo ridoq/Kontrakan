@@ -33,7 +33,7 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('members.store') }}">
+                                <form action="{{ route('members.store') }}" enctype="multipart/form-data" method="post">
                                     @csrf
                                     <div class="row">
                                         <div class="col-12 mb-5">
@@ -74,7 +74,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                       
                                         <div class="col-12 mb-5">
                                             <div class=" form-password-toggle ">
                                                 <div class=" input-group input-group-merge " id="">
@@ -95,7 +95,17 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div> 
+
+                                        <div class="col-12 mb-5 mt-3">  
+                                            <div class="input-group input-group-merge">
+                                                <div class="form-floating form-floating-outline">
+                                                    <input type="file" class="form-control" id="basic-addon11" name="photo_profile" />
+                                                    <label for="basic-addon11">Photo Profile</label>
+                                                </div>
+                                            </div>
                                         </div>
+
 
                                         <div class="col-12 mb-5">
                                             <div class="input-group input-group-merge ">
@@ -124,6 +134,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Photo</th>
                                 <th>Nama</th>
                                 <th>Alamat</th>
                                 <th>No Telepon</th>
@@ -140,6 +151,9 @@
                             @forelse ($members as $index=>$member)
                                 <tr>
                                     <td> {{ $pageNumber + $loop->iteration }} </td>
+                                    <td>
+                                        <img src="{{ asset('storage/'.$member->photo_profile) }}" alt="" style="width: 100px; height:100px;">
+                                    </td>
                                     <td>{{ $member->name }}</td>
                                     <td>{{ $member->address }}</td>
                                     <td>{{ $member->phone_number }}</td>
@@ -241,6 +255,14 @@
                                                                 </div>
                                                             </div>
                                                         </div> --}}
+                                                        <div class="col-12 mb-5 mt-3">  
+                                                            <div class="input-group input-group-merge">
+                                                                <div class="form-floating form-floating-outline">
+                                                                    <input type="file" class="form-control" id="basic-addon11" name="photo_profile" value="{{ $member->profile_photo }}"/>
+                                                                    <label for="basic-addon11">Photo Profile</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
                                                         <div class="col-12 mb-5">
                                                             <div class="input-group input-group-merge ">

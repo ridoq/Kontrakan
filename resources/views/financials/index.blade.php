@@ -1,46 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container d-flex gap-6" style="flex-wrap: wrap;">
-        @forelse ($members as $member)
-            @php
-                $latestIncome = $member->incomes->where('status', 'Diterima')->sortByDesc('has_paid_until')->first();
-                $hasPaidUntil = $latestIncome ? \Carbon\Carbon::parse($latestIncome->has_paid_until) : null;
-            @endphp
-            <div class="card" style="width: 15rem; flex-shrink: 0">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body d-flex flex-column justify-content-between">
-                    <h5 class="card-title">{{ $member->name }}</h5>
-                    <p class="card-text">
-                        @if ($hasPaidUntil && $hasPaidUntil->isToday())
-                            Telah membayar kas hari ini
-                            <br>
-                            <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
-                        @elseif ($hasPaidUntil && $hasPaidUntil->eq(today()->addDay()))
-                            Telah membayar kas hari ini dan hari esok
-                            <br>
-                            <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
-                        @elseif ($hasPaidUntil && $hasPaidUntil->gte(today()->addDays(2)))
-                            Telah membayar kas sampai hari
-                            <br>
-                            <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
-                        @else
-                            <strong>Belum membayar kas hari ini</strong>
-                        @endif
-                    </p>
-                    @if (
-                        $hasPaidUntil &&
-                            ($hasPaidUntil->isToday() || $hasPaidUntil->eq(today()->addDay()) || $hasPaidUntil->gte(today()->addDays(2))))
-                        <span class="badge bg-success">Naisu Guachamole</span>
+<div class="container d-flex gap-6" style="flex-wrap: wrap;">
+    @forelse ($members as $member)
+        @php
+            $latestIncome = $member->incomes->where('status', 'Diterima')->sortByDesc('has_paid_until')->first();
+            $hasPaidUntil = $latestIncome ? \Carbon\Carbon::parse($latestIncome->has_paid_until) : null;
+        @endphp
+        <div class="card" data-tilt style="width: 15rem; flex-shrink: 0">
+            <img src="{{ asset('storage/' . $member->photo_profile) }}" class="card-img-top" alt="...">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <h5 class="card-title">{{ $member->name }}</h5>
+                <p class="card-text">
+                    @if ($hasPaidUntil && $hasPaidUntil->isToday())
+                        Telah membayar kas hari ini
+                        <br>
+                        <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
+                    @elseif ($hasPaidUntil && $hasPaidUntil->eq(today()->addDay()))
+                        Telah membayar kas hari ini dan hari esok
+                        <br>
+                        <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
+                    @elseif ($hasPaidUntil && $hasPaidUntil->gte(today()->addDays(2)))
+                        Telah membayar kas sampai hari
+                        <br>
+                        <strong>{{ $hasPaidUntil->locale('id')->translatedFormat('l, d F Y') }}</strong>
                     @else
-                        <span class="badge bg-danger">Dibayar dong Guachamole</span>
+                        <strong>Belum membayar kas hari ini</strong>
                     @endif
-                </div>
+                </p>
+                @if (
+                    $hasPaidUntil &&
+                        ($hasPaidUntil->isToday() || $hasPaidUntil->eq(today()->addDay()) || $hasPaidUntil->gte(today()->addDays(2))))
+                    <span class="badge bg-success">Naisu Guachamole</span>
+                @else
+                    <span class="badge bg-danger">Dibayar dong Guachamole</span>
+                @endif
             </div>
-        @empty
-            <div class="">no</div>
-        @endforelse
-    </div>
+        </div>
+    @empty
+        <div class="">no</div>
+    @endforelse
+</div>
+
 
 
 
@@ -94,4 +95,14 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        VanillaTilt.init(document.querySelectorAll(".card[data-tilt]"), {
+            max: 25,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.5,
+        });
+    </script>
+    
 @endsection
