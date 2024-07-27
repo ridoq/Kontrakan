@@ -3,7 +3,7 @@
 @section('content')
     {{-- Tambah Member --}}
     <div class="col-12">
-        <div class="card">
+        <div class="card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500">
             <div class="card-header">
                 <h3 class="card-title">Daftar Anggota</h3>
             </div>
@@ -11,125 +11,20 @@
                 <div class="d-flex justify-content-between py-0 mb-5 " style="height: 40px">
                     <form action="" method="GET" class="d-flex w-50 me-4">
                         @csrf
-                        <div class="d-flex align-items-center border rounded px-3 w-100">
+                        <div class="d-flex align-items-center border rounded px-3 w-100" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
                             <input type="text" name="search" class="form-control border-none"
                                 value="{{ request()->input('search') }}" placeholder="Cari data ...">
                             <a class="btn-close cursor-pointer" href="{{ route('members') }}"></a>
                         </div>
                     </form>
                     @hasrole('admin')
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="700">
                             Tambah Data
                         </button>
                     @endhasrole
                 </div>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Tambah Anggota Baru</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{{ route('members.store') }}" enctype="multipart/form-data" method="post">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-12 mb-5">
-                                            <div class="input-group input-group-merge">
-                                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                                        class="ri-user-line"></i></span>
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" class="form-control" id="basic-addon11"
-                                                        placeholder="Example: Jhon Doe" aria-label="Username"
-                                                        aria-describedby="basic-addon11" name="name" />
-                                                    <label for="basic-addon11">Nama Lengkap</label>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-6 mb-5">
-                                            <div class="input-group input-group-merge">
-                                                <span id="basic-icon-default-fullname2"
-                                                    class="input-group-text pointer-events-none"><i
-                                                        class="ri-mail-line"></i></span>
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="text" class="form-control" id="basic-addon13"
-                                                        placeholder="example@gmail.com" aria-label="Recipient's username"
-                                                        aria-describedby="basic-addon13" name="email" />
-                                                    <label for="basic-addon13">Email</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6 mb-5">
-                                            <div class="input-group input-group-merge">
-                                                <span class="input-group-text"><i class="ri-phone-line"></i> (+62)</span>
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="number" id="phone-number-mask"
-                                                        class="form-control phone-number-mask" placeholder="8123456789"
-                                                        name="phone_number" />
-                                                    <label for="phone-number-mask">Nomor Telepon</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                       
-                                        <div class="col-12 mb-5">
-                                            <div class=" form-password-toggle ">
-                                                <div class=" input-group input-group-merge " id="">
-                                                    <span id="border-none basic-icon-default-fullname2"
-                                                        class="input-group-text"><i class="ri-lock-line"></i></span>
-                                                    <div class=" form-floating form-floating-outline">
-                                                        @php
-                                                            $pw =
-                                                                'user_' .
-                                                                str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-                                                        @endphp
-                                                        <input type="hidden" name="password" value="{{ $pw }}">
-                                                        <input type="password" class="form-control"
-                                                            id="basic-default-password12" placeholder="{{ $pw }}"
-                                                            aria-describedby="basic-default-password12" disabled />
-                                                        <label for="basic-default-password12">Password :
-                                                            <strong>{{ $pw }}</strong></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> 
-
-                                        <div class="col-12 mb-5 mt-3">  
-                                            <div class="input-group input-group-merge">
-                                                <div class="form-floating form-floating-outline">
-                                                    <input type="file" class="form-control" id="basic-addon11" name="photo_profile" />
-                                                    <label for="basic-addon11">Photo Profile</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-12 mb-5">
-                                            <div class="input-group input-group-merge ">
-                                                <span class="input-group-text "><i class="ri-road-map-line"></i></span>
-                                                <div class="form-floating form-floating-outline">
-                                                    <textarea class="form-control h-px5" style="resize: none;height:80px;" name="address" aria-label="With textarea"
-                                                        placeholder="Lorem ipsum"></textarea>
-                                                    <label>Alamat</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 mb-3 mt-5 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-secondary me-2"
-                                            data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-primary">Tambah</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="table-responsive text-nowrap">
+                <div class="table-responsive text-nowrap" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="900">
                     <table class="table">
                         <thead>
                             <tr>
@@ -306,4 +201,110 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Anggota Baru</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('members.store') }}" enctype="multipart/form-data" method="post">
+                    @csrf
+                    <div class="row">
+                        <div class="col-12 mb-5">
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                        class="ri-user-line"></i></span>
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" id="basic-addon11"
+                                        placeholder="Example: Jhon Doe" aria-label="Username"
+                                        aria-describedby="basic-addon11" name="name" />
+                                    <label for="basic-addon11">Nama Lengkap</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 mb-5">
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2"
+                                    class="input-group-text pointer-events-none"><i
+                                        class="ri-mail-line"></i></span>
+                                <div class="form-floating form-floating-outline">
+                                    <input type="text" class="form-control" id="basic-addon13"
+                                        placeholder="example@gmail.com" aria-label="Recipient's username"
+                                        aria-describedby="basic-addon13" name="email" />
+                                    <label for="basic-addon13">Email</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6 mb-5">
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text"><i class="ri-phone-line"></i> (+62)</span>
+                                <div class="form-floating form-floating-outline">
+                                    <input type="number" id="phone-number-mask"
+                                        class="form-control phone-number-mask" placeholder="8123456789"
+                                        name="phone_number" />
+                                    <label for="phone-number-mask">Nomor Telepon</label>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <div class="col-12 mb-5">
+                            <div class=" form-password-toggle ">
+                                <div class=" input-group input-group-merge " id="">
+                                    <span id="border-none basic-icon-default-fullname2"
+                                        class="input-group-text"><i class="ri-lock-line"></i></span>
+                                    <div class=" form-floating form-floating-outline">
+                                        @php
+                                            $pw =
+                                                'user_' .
+                                                str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+                                        @endphp
+                                        <input type="hidden" name="password" value="{{ $pw }}">
+                                        <input type="password" class="form-control"
+                                            id="basic-default-password12" placeholder="{{ $pw }}"
+                                            aria-describedby="basic-default-password12" disabled />
+                                        <label for="basic-default-password12">Password :
+                                            <strong>{{ $pw }}</strong></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="col-12 mb-5 mt-3">  
+                            <div class="input-group input-group-merge">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="file" class="form-control" id="basic-addon11" name="photo_profile" />
+                                    <label for="basic-addon11">Photo Profile</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 mb-5">
+                            <div class="input-group input-group-merge ">
+                                <span class="input-group-text "><i class="ri-road-map-line"></i></span>
+                                <div class="form-floating form-floating-outline">
+                                    <textarea class="form-control h-px5" style="resize: none;height:80px;" name="address" aria-label="With textarea"
+                                        placeholder="Lorem ipsum"></textarea>
+                                    <label>Alamat</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-3 mt-5 d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary me-2"
+                            data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
