@@ -42,9 +42,9 @@ class IncomeController extends Controller
 
 
             if ($totalIncome < $totalPaymentExpected) {
-                $outstandingPayment = 'Rp. ' . number_format($totalPaymentExpected - $totalIncome);
+                $outstandingPayment = $totalPaymentExpected - $totalIncome;
             } else {
-                $outstandingPayment = "Rp. " . 0;
+                $outstandingPayment = 0;
             }
         };
 
@@ -86,20 +86,28 @@ class IncomeController extends Controller
                 'has_paid_until' => $lastIncome->has_paid_until,
             ]);
         } else {
+            $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d');//26
+            $currentDate = date('Y-m-d');//27
+            $startDateTimestamp = strtotime($startDate);
+            $currentDateTimestamp = strtotime($currentDate);
+            $daysDifference = ($currentDateTimestamp / $startDateTimestamp);//1
+            $incomeDateRaw = Carbon::parse($currentDate);//27
+            $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d');//
+            // dd($income_date);
             Income::create([
                 'payment_proof' => $paymentProof,
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,
                 'income_date' => $request->income_date,
                 'description' => $request->description,
-                'has_paid_until' => $request->income_date,
+                'has_paid_until' => $income_date//26
             ]);
         }
 
         return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
     }
 
-    public function accept(Income $income)
+    public function accept(Request $request, Income $income)
     {
         if (Financial::count() === 0) {
             $newAmount = Financial::sum('amount') + $income->amount;
@@ -126,9 +134,6 @@ class IncomeController extends Controller
         $incomeDate = Carbon::parse($income->has_paid_until);
         $income->has_paid_until = $incomeDate->addDays($paid_day)->format('Y-m-d');
         $income->save();
-
-        $paid_days = floor($income->amount / 15000);
-        $incomeDate = Carbon::parse($income->has_paid_until);
 
         // if ($incomeDate->lt(Carbon::today()) || $incomeDate->isToday()) {
         //     $income->has_paid_until = today()->addDays($paid_days - 1)->format('Y-m-d');
