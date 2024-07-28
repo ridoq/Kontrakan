@@ -6,6 +6,11 @@
 <head>
     @include('component.head')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 
     <style>
         #loadingSpinner {
@@ -15,13 +20,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            
+
             z-index: 9999;
             justify-content: center;
             align-items: center;
             display: flex;
             animation: opacity 1s
         }
+
         .spinner-border {
             width: 3rem;
             height: 3rem;
@@ -33,18 +39,34 @@
             border-right-color: transparent;
             animation: spinner-border 0.40s linear infinite;
         }
+
         @keyframes spinner-border {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes opacity {
-            0% { background: rgba(255, 255, 255, 255); }
-            50% { background: rgba(255, 255, 255, 255); }
-            75% { background: rgba(255, 255, 255, 0.1); }
-            100% { background: rgba(255, 255, 255, 0); }
-        }
+            0% {
+                background: rgba(255, 255, 255, 255);
+            }
 
+            50% {
+                background: rgba(255, 255, 255, 255);
+            }
+
+            75% {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            100% {
+                background: rgba(255, 255, 255, 0);
+            }
+        }
     </style>
 </head>
 
@@ -54,7 +76,7 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-    
+
     <script>
         function showSpinner() {
             const spinner = document.getElementById('loadingSpinner');
@@ -72,7 +94,7 @@
             }, 100); // Interval pemeriksaan dalam milidetik (100ms)
         }
     </script>
-    
+
 
     <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar ">
@@ -82,7 +104,7 @@
         <div class="layout-page ">
             <!-- Navbar -->
             @include('component.navbar')
-            
+
             <!-- Content wrapper -->
             <div class="content-wrapper ">
                 <!-- Content -->
@@ -171,9 +193,9 @@
     @include('component.script')
 
     <!-- JavaScript Inline -->
-    
-    
-    
+
+
+
 </body>
 
 </html>
