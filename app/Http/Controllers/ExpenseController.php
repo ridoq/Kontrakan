@@ -68,7 +68,8 @@ class ExpenseController extends Controller
      */
     public function update(UpdateExpenseRequest $request, Expense $expense)
     {
-        //
+    //    $expense->update($request->all());
+    //    return redirect()->route('expenses')->with('success', 'Berhasil membuat Pengeluaran');
     }
 
     /**
