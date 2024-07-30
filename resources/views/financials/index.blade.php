@@ -129,7 +129,7 @@
                                 <td>{{ 'Rp. ' . number_format($financial->amount) }}</td>
                                 <td>
                                     <span
-                                        class="badge {{ $financial->transaction_type === 'Pemasukan' ? 'bg-success' : 'bg-warning' }}">{{ $financial->transaction_type }}</span>
+                                        class="badge {{ $financial->transaction_type === 'Pemasukan' ? 'bg-label-success' : 'bg-label-danger' }}">{{ $financial->transaction_type }}</span>
                                 </td>
                                 <td>{{ 'Rp. ' . number_format($financial->nominal) }}</td>
                                 <td>{{ $financial->created_at->locale('id')->translatedFormat('l, d F Y | H:i') }}</td>
