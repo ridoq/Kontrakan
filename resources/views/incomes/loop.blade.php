@@ -8,7 +8,7 @@
             </form>
             <form action="{{ route('incomes.reject', $income->id) }}" method="POST" class="col-lg-6 col-sm-12 mt-1">
                 @csrf
-                <button type="submit" class="col-12 btn btn-label-danger" type="button">Reject</button>
+                <button type="submit" class="col-12 btn btn-label-danger" type="button">Rejects</button>
             </form>
         </div>
     </td>
