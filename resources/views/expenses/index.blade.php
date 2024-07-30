@@ -10,19 +10,21 @@
                 <div class="d-flex justify-content-between py-0 mb-4">
                     <form action="" method="GET" class="d-flex w-50 me-4">
                         @csrf
-                        <div class="d-flex align-items-center border rounded px-3 w-100" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="900">
-                            <input type="text" name="search" class="form-control border-none" 
+                        <div class="d-flex align-items-center border rounded px-3 w-100" data-aos="fade-up"
+                            data-aos-duration="1000" data-aos-delay="900">
+                            <input type="text" name="search" class="form-control border-none"
                                 value="{{ request()->input('search') }}" placeholder="Cari data ...">
                             <a class="btn-close cursor-pointer" href="{{ route('members') }}"></a>
                         </div>
                     </form>
                     @hasrole('admin')
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="900">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            data-aos="fade-up" data-aos-duration="1000" data-aos-delay="900">
                             Buat Pengeluaran
                         </button>
                     @endhasrole
                 </div>
-               
+
                 <div class="table-responsive text-nowrap">
                     <table class="table">
                         <thead>
@@ -42,7 +44,7 @@
                             @forelse ($expenses as $index=>$expense)
                                 <tr>
                                     <th scope="row">
-                                        {{ $index + 1 + ($expenses->currentPage() - 1) * $expenses->perPage() }} </th>
+                                        {{ $startingNumber - $index }} </th>
                                     <td>{{ $expense->users->name }}</td>
                                     <td>{{ 'Rp. ' . number_format($expense->amount) }}</td>
                                     <td>{{ \Carbon\Carbon::parse($expense->expense_date)->locale('id')->translatedFormat('l, d F Y') }}
@@ -75,44 +77,42 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Data Pengeluaran</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Data Pengeluaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('expenses.store') }}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Nama Pengguna:</label>
+                            <input type="text" disabled class="form-control" id="recipient-name"
+                                value="{{ Auth::user()->name }}">
+                            <input type="hidden" class="form-control" id="recipient-name" name="user_id"
+                                value="{{ Auth::user()->id }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Nominal Pengeluaran:</label>
+                            <input type="number" class="form-control" id="recipient-name" name="amount">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Tanggal Pengeluaran:</label>
+                            <input type="date" class="form-control" id="recipient-name" name="expense_date">
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Description: (Optional)</label>
+                            <input type="text" class="form-control" id="recipient-name" name="description">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Buat Data Pengeluaran</button>
+                    </div>
+                </form>
             </div>
-            <form action="{{ route('expenses.store') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Nama Pengguna:</label>
-                        <input type="text" disabled class="form-control" id="recipient-name"
-                            value="{{ Auth::user()->name }}">
-                        <input type="hidden" class="form-control" id="recipient-name" name="user_id"
-                            value="{{ Auth::user()->id }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Nominal Pengeluaran:</label>
-                        <input type="number" class="form-control" id="recipient-name" name="amount">
-                    </div>
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Tanggal Pengeluaran:</label>
-                        <input type="date" class="form-control" id="recipient-name" name="expense_date">
-                    </div>
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Description: (Optional)</label>
-                        <input type="text" class="form-control" id="recipient-name" name="description">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">Buat Data Pengeluaran</button>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 @endsection

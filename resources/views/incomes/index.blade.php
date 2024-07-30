@@ -37,6 +37,7 @@
                             </div>
                         </form>
                         @yield('btnStore')
+
                 </div>
 
                 <div class="table-responsive text-nowrap">
@@ -62,7 +63,7 @@
                             @include('incomes.loop')
                                 <tr>
                                     <th scope="row">
-                                        {{ $index + 1 + ($incomes->currentPage() - 1) * $incomes->perPage() }} </th>
+                                        {{ $startingNumber - $index }} </th>
                                     <td>
                                         <img style="width: 120px;box-shadow: 0px 0px 10px rgba(0,0,0,.2)"
                                             src="{{ asset('storage/' . $income->payment_proof) }}" alt="error">

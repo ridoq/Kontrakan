@@ -12,10 +12,15 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $members = User::role('member')->latest()->paginate(10);
-        return view('members.index', compact("members"));
+
+        $page = $request->get('page', 1);
+        $perPage = $members->perPage();
+        $totalItems = $members->total();
+        $startingNumber = $totalItems - (($page - 1) * $perPage);
+        return view('members.index', compact("members", "startingNumber"));
     }
 
     /**
