@@ -86,17 +86,17 @@ class IncomeController extends Controller
                 'has_paid_until' => $lastIncome->has_paid_until,
             ]);
         } else {
-            $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d'); //24
-            $currentDate = date('Y-m-d'); //27
+            $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d'); //28
+            $currentDate = date('Y-m-d'); //28
             $startDateTimestamp = strtotime($startDate);
             $currentDateTimestamp = strtotime($currentDate);
             if ($startDateTimestamp === $currentDateTimestamp) {
                 $daysDifference = ($currentDateTimestamp / $startDateTimestamp); //1
             } else {
-                $daysDifference = ($currentDateTimestamp - $startDateTimestamp) / (60 * 60 * 24) + 1; //4
+                $daysDifference = ($currentDateTimestamp - $startDateTimestamp) / (60 * 60 * 24) + 1; //1
             }
-            $incomeDateRaw = Carbon::parse($currentDate); //27
-            $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d'); //23
+            $incomeDateRaw = Carbon::parse($currentDate);//27
+            $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d');//23
             Income::create([
                 'payment_proof' => $paymentProof,
                 'user_id' => $request->user_id,
@@ -110,7 +110,7 @@ class IncomeController extends Controller
         return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
     }
 
-    public function accept(Request $request, Income $income)
+    public function accept( Income $income)
     {
         if (Financial::count() === 0) {
             $newAmount = Financial::sum('amount') + $income->amount;
@@ -130,19 +130,14 @@ class IncomeController extends Controller
             ]);
         }
 
-        $income->status = 'Diterima';
 
         // logika hutang piutang
-        if ($request->hutang != 0) {
-            $hutang = ($request->hutang / 15000) - 1; //3
-        } else {
-            $hutang = 0;
-        }
-        $paid_day = ($income->amount / 15000); //4
-        $incomeDate = Carbon::parse($income->has_paid_until); //23
-        $incomeAdd = $incomeDate->addDays($paid_day)->format('Y-m-d'); //27
-        $incomeAddTotal = Carbon::parse($incomeAdd);
-        $income->has_paid_until = $incomeAddTotal->subDays($hutang)->format('Y-m-d'); //23
+        $paid_day = ($income->amount / 15000);//1
+        $incomeDate = Carbon::parse($income->has_paid_until);//26
+        $income->has_paid_until = $incomeDate->addDays($paid_day)->format('Y-m-d');//28
+        // dd($income->has_paid_until);
+        $income->status = 'Diterima';
+
         $income->save();
 
 

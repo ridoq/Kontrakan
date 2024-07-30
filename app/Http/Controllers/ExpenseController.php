@@ -39,7 +39,8 @@ class ExpenseController extends Controller
 
         Financial::create([
             'amount' => $newAmount,
-            'nominal' => $request->amount,
+            'nominal' => $request->amount, 
+            'expense_date' => $request->expense_date,
             'transaction_type' => 'Pengeluaran',
         ]);
 
@@ -67,7 +68,8 @@ class ExpenseController extends Controller
      */
     public function update(UpdateExpenseRequest $request, Expense $expense)
     {
-        //
+    //    $expense->update($request->all());
+    //    return redirect()->route('expenses')->with('success', 'Berhasil membuat Pengeluaran');
     }
 
     /**

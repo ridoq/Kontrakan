@@ -14,7 +14,9 @@
 <script src="../../assets/js/main.js"></script>
 <!-- Page JS -->
 <script src="../../assets/js/dashboards-analytics.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+    AOS.init();
     function formatPhoneNumber() {
         let input = document.getElementById('phone-number-mask');
         let value = input.value.replace(/\D/g, '');

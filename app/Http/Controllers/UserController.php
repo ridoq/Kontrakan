@@ -29,9 +29,20 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest   $request)
+    public function store(StoreUserRequest $request)
     {
-        User::create($request->all())->assignRole('member');
+        $photoProfile = $request->file('photo_profile')->store('photoProfile', 'public');
+        // dd($photoProfile);
+
+        User::create([
+            'photo_profile' => $photoProfile,
+            'name' => $request->name,
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+            'email' => $request->email,
+            'password' => $request->password,
+        ])->assignRole('member');
+
         return redirect()->route('members')->with('success', 'Berhasil menambah anggota baru.');
     }
 

@@ -48,6 +48,7 @@
 <!-- Page CSS -->
 <link rel="stylesheet" href="../../assets/vendor/css/pages/cards-statistics.css" />
 <link rel="stylesheet" href="../../assets/vendor/css/pages/cards-analytics.css" />
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
 <!-- Helpers -->
 <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
