@@ -47,7 +47,7 @@
                             @endphp
                             @forelse ($members as $index=>$member)
                                 <tr>
-                                    <td> {{ $pageNumber + $loop->iteration }} </td>
+                                    <td> {{ $startingNumber - $index }} </td>
                                     <td>
                                         <img src="{{ asset('storage/' . $member->photo_profile) }}" alt=""
                                             style="width: 100px; height:100px;">
@@ -76,7 +76,7 @@
                                     @endhasrole
                                 </tr>
                                 <!-- Modal Edit -->
-                                
+
                                 <!-- End Modal Edit -->
                             @empty
                                 <tr>
@@ -96,7 +96,7 @@
             </div>
         </div>
     </div>
-  
+
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -123,8 +123,8 @@
 
                             <div class="col-6 mb-5">
                                 <div class="input-group input-group-merge">
-                                    <span id="basic-icon-default-fullname2"
-                                        class="input-group-text pointer-events-none"><i class="ri-mail-line"></i></span>
+                                    <span id="basic-icon-default-fullname2" class="input-group-text pointer-events-none"><i
+                                            class="ri-mail-line"></i></span>
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" class="form-control" id="basic-addon13"
                                             placeholder="example@gmail.com" aria-label="Recipient's username"
@@ -199,68 +199,62 @@
         </div>
     </div>
     @foreach ($members as $member)
-    <div class="modal fade" id="editModal{{ $member->id }}" tabindex="-1"
-        aria-labelledby="editModalLabel{{ $member->id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel{{ $member->id }}">Edit data
-                        '{{ $member->name }}'</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('members.update', $member->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-                            <div class="col-12 mb-5">
-                                <div class="input-group input-group-merge">
-                                    <span id="basic-icon-default-fullname2"
-                                        class="input-group-text"><i
-                                            class="ri-user-line"></i></span>
-                                    <div class="form-floating form-floating-outline">
-                                        <input type="text" class="form-control"
-                                            id="basic-addon11" placeholder="Example: Jhon Doe"
-                                            aria-label="Username"
-                                            aria-describedby="basic-addon11" name="name"
-                                            value="{{ $member->name }}" />
-                                        <label for="basic-addon11">Nama Lengkap</label>
+        <div class="modal fade" id="editModal{{ $member->id }}" tabindex="-1"
+            aria-labelledby="editModalLabel{{ $member->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel{{ $member->id }}">Edit data
+                            '{{ $member->name }}'</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('members.update', $member->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="row">
+                                <div class="col-12 mb-5">
+                                    <div class="input-group input-group-merge">
+                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                                class="ri-user-line"></i></span>
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="text" class="form-control" id="basic-addon11"
+                                                placeholder="Example: Jhon Doe" aria-label="Username"
+                                                aria-describedby="basic-addon11" name="name"
+                                                value="{{ $member->name }}" />
+                                            <label for="basic-addon11">Nama Lengkap</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-6 mb-5">
-                                <div class="input-group input-group-merge">
-                                    <span id="basic-icon-default-fullname2"
-                                        class="input-group-text pointer-events-none"><i
-                                            class="ri-mail-line"></i></span>
-                                    <div class="form-floating form-floating-outline">
-                                        <input type="text" class="form-control"
-                                            id="basic-addon13" placeholder="example"
-                                            aria-label="Recipient's username"
-                                            aria-describedby="basic-addon13" name="email"
-                                            value="{{ $member->email }}" />
-                                        <label for="basic-addon13">Email</label>
+                                <div class="col-6 mb-5">
+                                    <div class="input-group input-group-merge">
+                                        <span id="basic-icon-default-fullname2"
+                                            class="input-group-text pointer-events-none"><i
+                                                class="ri-mail-line"></i></span>
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="text" class="form-control" id="basic-addon13"
+                                                placeholder="example" aria-label="Recipient's username"
+                                                aria-describedby="basic-addon13" name="email"
+                                                value="{{ $member->email }}" />
+                                            <label for="basic-addon13">Email</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-6 mb-5">
-                                <div class="input-group input-group-merge">
-                                    <span class="input-group-text"><i
-                                            class="ri-phone-line"></i> (+62)</span>
-                                    <div class="form-floating form-floating-outline">
-                                        <input type="text" id="phone-number-mask"
-                                            class="form-control phone-number-mask"
-                                            placeholder="8123456789" name="phone_number"
-                                            value="{{ $member->phone_number }}" />
-                                        <label for="phone-number-mask">Nomor Telepon</label>
+                                <div class="col-6 mb-5">
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text"><i class="ri-phone-line"></i> (+62)</span>
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="text" id="phone-number-mask"
+                                                class="form-control phone-number-mask" placeholder="8123456789"
+                                                name="phone_number" value="{{ $member->phone_number }}" />
+                                            <label for="phone-number-mask">Nomor Telepon</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {{-- <div class="col-12 mb-5">
+                                {{-- <div class="col-12 mb-5">
                                 <div class="input-group input-group-merge">
                                     <span id="basic-icon-default-fullname2"
                                         class="input-group-text"><i
@@ -276,39 +270,37 @@
                                     </div>
                                 </div>
                             </div> --}}
-                            <div class="col-12 mb-5 mt-3">
-                                <div class="input-group input-group-merge">
-                                    <div class="form-floating form-floating-outline">
-                                        <input type="file" class="form-control"
-                                            id="basic-addon11" name="photo_profile"
-                                            value="{{ $member->profile_photo }}" />
-                                        <label for="basic-addon11">Photo Profile</label>
+                                <div class="col-12 mb-5 mt-3">
+                                    <div class="input-group input-group-merge">
+                                        <div class="form-floating form-floating-outline">
+                                            <input type="file" class="form-control" id="basic-addon11"
+                                                name="photo_profile" value="{{ $member->profile_photo }}" />
+                                            <label for="basic-addon11">Photo Profile</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-5">
+                                    <div class="input-group input-group-merge ">
+                                        <span class="input-group-text "><i class="ri-road-map-line"></i></span>
+                                        <div class="form-floating form-floating-outline">
+                                            <textarea class="form-control h-px5" style="resize: none;height:80px;" name="address" aria-label="With textarea"
+                                                placeholder="Lorem ipsum">{{ $member->address }}</textarea>
+                                            <label>Alamat</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-12 mb-5">
-                                <div class="input-group input-group-merge ">
-                                    <span class="input-group-text "><i
-                                            class="ri-road-map-line"></i></span>
-                                    <div class="form-floating form-floating-outline">
-                                        <textarea class="form-control h-px5" style="resize: none;height:80px;" name="address" aria-label="With textarea"
-                                            placeholder="Lorem ipsum">{{ $member->address }}</textarea>
-                                        <label>Alamat</label>
-                                    </div>
-                                </div>
+                            <div class="col-12 mb-3 mt-5 d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary me-2"
+                                    data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
-                        </div>
-
-                        <div class="col-12 mb-3 mt-5 d-flex justify-content-end">
-                            <button type="button" class="btn btn-secondary me-2"
-                                data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     @endforeach
 @endsection

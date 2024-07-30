@@ -16,14 +16,19 @@ class IncomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = User::role('member')->get();
         if (Auth::user()->hasRole('member')) {
-            $incomes = Income::where('user_id', Auth::user()->id)->latest()->paginate(5);
+            $incomes = Income::where('user_id', Auth::user()->id)->latest()->paginate(10);
         } else {
             $incomes = Income::latest()->paginate(10);
         }
+
+        $page = $request->get('page', 1);
+        $perPage = $incomes->perPage();
+        $totalItems = $incomes->total();
+        $startingNumber = $totalItems - (($page - 1) * $perPage);
 
         //UserIncomeLogic
         {
@@ -48,7 +53,7 @@ class IncomeController extends Controller
             }
         };
 
-        return view('incomes.index', compact('incomes', 'outstandingPayment', 'totalIncome', 'users'));
+        return view('incomes.index', compact('incomes', 'outstandingPayment', 'totalIncome', 'users', 'startingNumber'));
     }
 
 
@@ -93,10 +98,10 @@ class IncomeController extends Controller
             if ($startDateTimestamp === $currentDateTimestamp) {
                 $daysDifference = ($currentDateTimestamp / $startDateTimestamp); //1
             } else {
-                $daysDifference = ($currentDateTimestamp - $startDateTimestamp) / (60 * 60 * 24) + 1; //1
+                $daysDifference = (($currentDateTimestamp - $startDateTimestamp)) / (60 * 60 * 24) + 1; //4
             }
-            $incomeDateRaw = Carbon::parse($currentDate);//27
-            $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d');//23
+            $incomeDateRaw = Carbon::parse($currentDate); //27
+            $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d'); //23
             Income::create([
                 'payment_proof' => $paymentProof,
                 'user_id' => $request->user_id,
@@ -110,7 +115,7 @@ class IncomeController extends Controller
         return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
     }
 
-    public function accept( Income $income)
+    public function accept(Income $income)
     {
         if (Financial::count() === 0) {
             $newAmount = Financial::sum('amount') + $income->amount;
@@ -132,9 +137,9 @@ class IncomeController extends Controller
 
 
         // logika hutang piutang
-        $paid_day = ($income->amount / 15000);//1
-        $incomeDate = Carbon::parse($income->has_paid_until);//26
-        $income->has_paid_until = $incomeDate->addDays($paid_day)->format('Y-m-d');//28
+        $paid_day = ($income->amount / 15000); //1
+        $incomeDate = Carbon::parse($income->has_paid_until); //26
+        $income->has_paid_until = $incomeDate->addDays($paid_day)->format('Y-m-d'); //28
         // dd($income->has_paid_until);
         $income->status = 'Diterima';
 

@@ -125,7 +125,7 @@
                         @forelse ($financials as $index => $financial)
                             <tr>
                                 <th scope="row">
-                                    {{ $index + 1 + ($financials->currentPage() - 1) * $financials->perPage() }}</th>
+                                    {{ $startingNumber - $index }}</th>
                                 <td>{{ 'Rp. ' . number_format($financial->amount) }}</td>
                                 <td>
                                     <span
@@ -158,6 +158,7 @@
                         @endforelse
                     </tbody>
                 </table>
+                {{ $financials->links() }}
             </div>
         </div>
     </div>

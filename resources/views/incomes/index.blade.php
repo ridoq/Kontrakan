@@ -24,17 +24,17 @@
                 <h3 class="card-title">History pembayaran</h3>
             </div>
             <div class="card-body" style="padding: 50px">
-                    <div class="d-flex justify-content-between py-0 " style="margin-bottom: ">
-                        <form action="" method="GET" class="d-flex w-50 me-4">
-                            @csrf
-                            <div class="d-flex align-items-center border rounded px-3 w-100 shadow-sm">
-                                <input type="text" name="search" class="form-control border-none"
-                                    value="{{ request()->input('search') }}" placeholder="Cari data ...">
-                                @if (request()->input('search'))
-                                    <a class="btn-close cursor-pointer" href="{{ route('incomes') }}"></a>
-                                @endif
-                            </div>
-                        </form>
+                <div class="d-flex justify-content-between py-0 " style="margin-bottom: ">
+                    <form action="" method="GET" class="d-flex w-50 me-4">
+                        @csrf
+                        <div class="d-flex align-items-center border rounded px-3 w-100 shadow-sm">
+                            <input type="text" name="search" class="form-control border-none"
+                                value="{{ request()->input('search') }}" placeholder="Cari data ...">
+                            @if (request()->input('search'))
+                                <a class="btn-close cursor-pointer" href="{{ route('incomes') }}"></a>
+                            @endif
+                        </div>
+                    </form>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Bayar Kas
                     </button>
@@ -61,7 +61,7 @@
                             @forelse ($incomes as $index=>$income)
                                 <tr>
                                     <th scope="row">
-                                        {{ $index + 1 + ($incomes->currentPage() - 1) * $incomes->perPage() }} </th>
+                                        {{ $startingNumber - $index }} </th>
                                     <td>
                                         <img style="width: 120px;box-shadow: 0px 0px 10px rgba(0,0,0,.2)"
                                             src="{{ asset('storage/' . $income->payment_proof) }}" alt="error">
@@ -87,7 +87,7 @@
                                             <td>
                                                 <form action="{{ route('incomes.accept', $income->id) }}" method="POST">
                                                     @csrf
-                                                    
+
                                                     <button type="submit" class="btn btn-primary"
                                                         type="button">Verifikasi</button>
                                                 </form>
@@ -162,7 +162,7 @@
                                 <div class="col-12 mb-5 mt-3">
                                     <div class="input-group input-group-merge">
                                         <div class="form-floating form-floating-outline ">
-                                            <input type="hidden" name="hutang" value="{{ $outstandingPayment }}">   
+                                            <input type="hidden" name="hutang" value="{{ $outstandingPayment }}">
                                             <input type="hidden" class="form-control" id="basic-addon11"
                                                 placeholder="Example: Jhon Doe" aria-label="Username"
                                                 aria-describedby="basic-addon11" name="user_id"
