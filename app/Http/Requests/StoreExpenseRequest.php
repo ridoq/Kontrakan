@@ -24,8 +24,17 @@ class StoreExpenseRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'amount' => 'required|numeric|min:0|not_regex:/-/',
-            'expense_date' => 'required|date',
+            'expense_date' => 'required|date|before:tomorrow',
             'description' => 'nullable|string',
+        ];
+    }
+
+    public function message() {
+        return [
+            'user_id.required' => 'User id tidak boleh kosong',
+            'amount.required' => 'Nominal tidak boleh kosong ',
+            'expense_date.required' => 'Tanggal pengeluaran tidak boleh kosong',
+            
         ];
     }
 }

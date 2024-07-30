@@ -11,7 +11,8 @@
         margin-top: 20px;
         width: 1405px;
         overflow: hidden;
-        position: relative; /* Tambahkan ini untuk memastikan tombol navigasi berada di posisi yang benar */
+        position: relative;
+        /* Tambahkan ini untuk memastikan tombol navigasi berada di posisi yang benar */
     }
 
     .card {
@@ -21,25 +22,28 @@
 
     .swiper-button-next,
     .swiper-button-prev {
-        color: #000; /* Sesuaikan warna tombol navigasi jika diperlukan */
+        color: #000;
+        /* Sesuaikan warna tombol navigasi jika diperlukan */
     }
 
     .swiper-pagination {
         position: absolute;
-        bottom: 10px; /* Sesuaikan posisi pagination */
+        bottom: 10px;
+        /* Sesuaikan posisi pagination */
         width: 100%;
         text-align: center;
     }
 
     .swiper-button-next,
     .swiper-button-prev {
-        top: 50%; /* Posisi vertikal tombol navigasi di tengah swiper */
+        top: 50%;
+        /* Posisi vertikal tombol navigasi di tengah swiper */
         transform: translateY(-50%);
     }
 </style>
 
 @section('content')
-    <div class="container"  style="margin-bottom: 30px;">
+    <div class="container" style="margin-bottom: 30px;">
         <div class="swiper-container">
             <div class="swiper-wrapper">
                 @forelse ($members as $index => $member)
@@ -51,9 +55,10 @@
                         $hasPaidUntil = $latestIncome ? \Carbon\Carbon::parse($latestIncome->has_paid_until) : null;
                     @endphp
                     <div class="swiper-slide" style="">
-                        <div class="card" style="width: 15rem; flex-shrink: 0; margin-bottom:20px;" data-aos="fade-up" data-aos-duration="1000"
-                            data-aos-delay="{{ $index * 200 }}" data-tilt>
-                            <img src="{{ asset('storage/' . $member->photo_profile) }}" class="card-img-top" alt="..." style="width: 240px; height: 250px;">
+                        <div class="card" style="width: 15rem; flex-shrink: 0; margin-bottom:20px;" data-aos="fade-up"
+                            data-aos-duration="1000" data-aos-delay="{{ $index * 200 }}" data-tilt>
+                            <img src="{{ asset('storage/' . $member->photo_profile) }}" class="card-img-top" alt="..."
+                                style="width: 240px; height: 250px;">
                             <div class="card-body d-flex flex-column justify-content-between">
                                 <h5 class="card-title">{{ $member->name }}</h5>
                                 <p class="card-text">
@@ -160,8 +165,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init({
-                duration: 1000, // Sesuaikan dengan kebutuhan
-                once: true // Animasi hanya terjadi sekali saat scroll
+                duration: 1000,
+                once: true
             });
 
             VanillaTilt.init(document.querySelectorAll(".card[data-tilt]"), {
@@ -181,13 +186,23 @@
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
                 },
-                // autoplay: {
-                //     delay: 1500, // Set delay between slides (in milliseconds)
-                //     disableOnInteraction: false, // Autoplay will not be disabled after user interactions
-                // },
-                slidesPerView: 5, // Menampilkan 5 kartu dalam satu layar
-                spaceBetween: 10, // Mengatur jarak antar kartu (dalam piksel)
+                autoplay: {
+                    delay: 1000,
+                    disableOnInteraction: false,
+                },
+                slidesPerView: 5,
+                spaceBetween: 10,
+
             });
+
+            document.querySelector('.swiper-container').addEventListener('mouseenter', function() {
+                swiper.autoplay.stop();
+            });
+
+            document.querySelector('.swiper-container').addEventListener('mouseleave', function() {
+                swiper.autoplay.start();
+            });
+
         });
     </script>
 @endsection

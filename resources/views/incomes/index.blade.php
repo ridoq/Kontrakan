@@ -87,7 +87,7 @@
                                             <td>
                                                 <form action="{{ route('incomes.accept', $income->id) }}" method="POST">
                                                     @csrf
-                                                    <input type="hidden" name="hutang" value="{{ $outstandingPayment }}">
+                                                    
                                                     <button type="submit" class="btn btn-primary"
                                                         type="button">Verifikasi</button>
                                                 </form>
@@ -162,6 +162,7 @@
                                 <div class="col-12 mb-5 mt-3">
                                     <div class="input-group input-group-merge">
                                         <div class="form-floating form-floating-outline ">
+                                            <input type="hidden" name="hutang" value="{{ $outstandingPayment }}">   
                                             <input type="hidden" class="form-control" id="basic-addon11"
                                                 placeholder="Example: Jhon Doe" aria-label="Username"
                                                 aria-describedby="basic-addon11" name="user_id"

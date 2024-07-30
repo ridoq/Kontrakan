@@ -39,7 +39,8 @@ class ExpenseController extends Controller
 
         Financial::create([
             'amount' => $newAmount,
-            'nominal' => $request->amount,
+            'nominal' => $request->amount, 
+            'expense_date' => $request->expense_date,
             'transaction_type' => 'Pengeluaran',
         ]);
 

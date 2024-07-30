@@ -55,6 +55,10 @@
                 background: rgba(255, 255, 255, 255);
             }
 
+            25% {
+                background: rgba(255, 255, 255, 255);
+            }
+
             50% {
                 background: rgba(255, 255, 255, 255);
             }
