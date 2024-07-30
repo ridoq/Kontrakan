@@ -40,7 +40,7 @@
                     </svg> --}}
                 </span>
             </span>
-            <span class="app-brand-text demo menu-text fw-semibold ms-2">Las VeGas</span>
+            <span class="app-brand-text demo menu-text fw-semibold ms-2">Las Vegas</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
