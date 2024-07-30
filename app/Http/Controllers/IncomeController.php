@@ -32,11 +32,11 @@ class IncomeController extends Controller
                 ->sum('amount');
 
             //KAS 15 RIBU
-            $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d');//24
-            $currentDate = date('Y-m-d');//27
+            $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d'); //24
+            $currentDate = date('Y-m-d'); //27
             $startDateTimestamp = strtotime($startDate);
             $currentDateTimestamp = strtotime($currentDate);
-            $daysDifference = ($currentDateTimestamp - $startDateTimestamp ) / (60 * 60 * 24) + 1;//3
+            $daysDifference = ($currentDateTimestamp - $startDateTimestamp) / (60 * 60 * 24) + 1; //4
             $dailyPayment = 15000;
             $totalPaymentExpected = $daysDifference * $dailyPayment; //60
 
@@ -86,24 +86,24 @@ class IncomeController extends Controller
                 'has_paid_until' => $lastIncome->has_paid_until,
             ]);
         } else {
-            $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d');//24
-            $currentDate = date('Y-m-d');//27
+            $startDate = Auth::user()->created_at->setTimezone('Asia/Jakarta')->format('Y-m-d'); //24
+            $currentDate = date('Y-m-d'); //27
             $startDateTimestamp = strtotime($startDate);
             $currentDateTimestamp = strtotime($currentDate);
-            if($startDateTimestamp === $currentDateTimestamp){
-                $daysDifference = ($currentDateTimestamp / $startDateTimestamp);//1
-            }else{
-                $daysDifference = (($currentDateTimestamp - $startDateTimestamp)) / (60 * 60 * 24) + 1;//4
+            if ($startDateTimestamp === $currentDateTimestamp) {
+                $daysDifference = ($currentDateTimestamp / $startDateTimestamp); //1
+            } else {
+                $daysDifference = ($currentDateTimestamp - $startDateTimestamp) / (60 * 60 * 24) + 1; //4
             }
-            $incomeDateRaw = Carbon::parse($currentDate);//27
-            $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d');//23
+            $incomeDateRaw = Carbon::parse($currentDate); //27
+            $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d'); //23
             Income::create([
                 'payment_proof' => $paymentProof,
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,
                 'income_date' => $request->income_date,
                 'description' => $request->description,
-                'has_paid_until' => $income_date//23
+                'has_paid_until' => $income_date //23
             ]);
         }
 
@@ -133,16 +133,16 @@ class IncomeController extends Controller
         $income->status = 'Diterima';
 
         // logika hutang piutang
-        if($request->hutang != 0){
-            $hutang = ($request->hutang / 15000) - 1;//3
-        }else{
+        if ($request->hutang != 0) {
+            $hutang = ($request->hutang / 15000) - 1; //3
+        } else {
             $hutang = 0;
         }
-        $paid_day = ($income->amount / 15000);//4
-        $incomeDate = Carbon::parse($income->has_paid_until);//23
-        $incomeAdd = $incomeDate->addDays($paid_day)->format('Y-m-d');//27
+        $paid_day = ($income->amount / 15000); //4
+        $incomeDate = Carbon::parse($income->has_paid_until); //23
+        $incomeAdd = $incomeDate->addDays($paid_day)->format('Y-m-d'); //27
         $incomeAddTotal = Carbon::parse($incomeAdd);
-        $income->has_paid_until = $incomeAddTotal->subDays($hutang)->format('Y-m-d');//23
+        $income->has_paid_until = $incomeAddTotal->subDays($hutang)->format('Y-m-d'); //23
         $income->save();
 
 
