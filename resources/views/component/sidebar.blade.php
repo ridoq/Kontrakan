@@ -40,7 +40,7 @@
                     </svg> --}}
                 </span>
             </span>
-            <span class="app-brand-text demo menu-text fw-semibold ms-2">Las VeGas</span>
+            <span class="app-brand-text demo menu-text fw-semibold ms-2">Las Vegas</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -88,13 +88,21 @@
                 <div>Info Kas</div>
             </a>
         </li>
+        @hasrole('member')
         <li class="menu-item {{ request()->routeIs('incomes') ? 'active' : '' }}">
             <a href="{{ url('bayarkas') }}" class="menu-link">
                 <i class="menu-icon tf-icons mdi mdi-cash-plus"></i>
                 <div>Bayar Kas</div>
             </a>
         </li>
+        @endhasrole
         @hasrole('admin')
+        <li class="menu-item {{ request()->routeIs('incomes') ? 'active' : '' }}">
+            <a href="{{ url('bayarkas') }}" class="menu-link">
+                <i class="menu-icon tf-icons mdi mdi-cash-plus"></i>
+                <div>Pemasukan</div>
+            </a>
+        </li>
             <li class="menu-item {{ request()->routeIs('expenses') ? 'active' : '' }}">
                 <a href="{{ url('pengeluaran') }}" class="menu-link">
                     <i class="menu-icon tf-icons mdi mdi-cash-minus"></i>
