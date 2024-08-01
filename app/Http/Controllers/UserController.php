@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -38,7 +39,6 @@ class UserController extends Controller
     {
         $photoProfile = $request->file('photo_profile')->store('photoProfile', 'public');
         // dd($photoProfile);
-
         User::create([
             'photo_profile' => $photoProfile,
             'name' => $request->name,
@@ -46,7 +46,9 @@ class UserController extends Controller
             'phone_number' => $request->phone_number,
             'email' => $request->email,
             'password' => $request->password,
+            'pw' => $request->password,
         ])->assignRole('member');
+
 
         return redirect()->route('members')->with('success', 'Berhasil menambah anggota baru.');
     }

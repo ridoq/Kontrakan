@@ -14,21 +14,23 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'photo_profile' => 'photoProfile/atmin.png',
+            'photo_profile' => null,
             'name' => 'admin',
             'address' => '.....',
             'phone_number' => '123123123',
             'email' => 'admin@gmail.com',
             'password' => '12345678',
-        ])->assignRole('admin');
+            'pw'=>'12345678'
+            ])->assignRole('admin');
 
         User::create([
-            'photo_profile' => 'photoProfile/member.jpg',
+            'photo_profile' => null,
             'name' => 'member',
             'address' => '.....',
             'phone_number' => '123456789',
             'email' => 'member@gmail.com',
             'password' => '12345678',
-        ])->assignRole('member');
+            'pw'=>'pw_lama'
+            ])->assignRole('member');
     }
 }

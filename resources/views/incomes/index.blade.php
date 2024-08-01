@@ -2,6 +2,7 @@
 
 @section('content')
     @include('incomes.unloop')
+    @hasrole('member')
     <div class="col-7" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500">
         <div class="card bg-warning-subtle">
             <div class="card-header" style="padding: 50px">
@@ -18,6 +19,7 @@
             </div>
         </div>
     </div>
+    @endhasrole
 
     <div class="col-12" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="900">
         <div class="card">
@@ -37,7 +39,6 @@
                         </div>
                     </form>
                     @yield('btnStore')
-
                 </div>
 
                 <div class="table-responsive text-nowrap">
@@ -63,11 +64,9 @@
                                 @include('incomes.loop')
                                 <tr>
                                     <th scope="row">
-                                        {{ $startingNumber - $index }} </th>
-                                    <td>
-                                        <img style="width: 120px;box-shadow: 0px 0px 10px rgba(0,0,0,.2)"
-                                            src="{{ asset('storage/' . $income->payment_proof) }}" alt="error">
-                                    </td>
+                                        {{ $index + 1 + ($incomes->currentPage() - 1) * $incomes->perPage() }} </th>
+                                    <td><img style="width: 120px;box-shadow: 0px 0px 10px rgba(0,0,0,.2)"
+                                            src="{{ asset('storage/' . $income->payment_proof) }}" alt="error"></td>
                                     @hasrole('admin')
                                         <td>{{ $income->users->name }}</td>
                                     @endhasrole
@@ -84,6 +83,7 @@
                                             <span class="badge bg-danger  w-100">{{ $income->status }}</span>
                                         @endif
                                     </td>
+                                    {{-- Role --}}
                                     @hasrole('admin')
                                         @if ($income->status === 'Pending')
                                             @yield('acc')
@@ -93,21 +93,7 @@
                                     @endhasrole
                                     @hasrole('member')
                                         @if ($income->status === 'Pending')
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown"><i class="ri-more-2-line"></i></button>
-                                                    <div class="dropdown-menu">
-                                                        <form action="{{ route('incomes.cancel', $income->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="dropdown-item"><i
-                                                                    class="ri-close-circle-line me-2"></i>Cancel</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                            @yield('btnCancel')
                                         @else
                                             <td>
                                             </td>
