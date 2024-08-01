@@ -420,12 +420,14 @@
                                         <img src="../../assets/img/avatars/1.png" alt class="rounded-circle">
                                     </div>
                                 </div>
+                                
                                 <div class="flex-grow-1">
-                                    <span class="fw-medium d-block small">{{ Auth::user()->name }}</span>
                                     @hasrole('admin')
+                                        <span class="fw-medium d-block small">{{ Auth::user()->name }}</span>
                                         <small class="text-muted">Admin</small>
                                     @endhasrole
                                     @hasrole('member')
+                                        <span class="fw-medium d-block small">{{ Auth::user()->name }}</span>
                                         <small class="text-muted">Member</small>
                                     @endhasrole
                                 </div>
