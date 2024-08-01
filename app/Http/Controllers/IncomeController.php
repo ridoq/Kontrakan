@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreIncomeRequest;
 use App\Http\Requests\UpdateIncomeRequest;
+use App\Mail\HavePaid;
 use App\Models\Financial;
 use App\Models\Income;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class IncomeController extends Controller
 {
@@ -18,6 +20,7 @@ class IncomeController extends Controller
      */
     public function index(Request $request)
     {
+
         $users = User::role('member')->get();
         if (Auth::user()->hasRole('member')) {
             $incomes = Income::where('user_id', Auth::user()->id)->latest()->paginate(10);
@@ -77,12 +80,13 @@ class IncomeController extends Controller
      */
     public function store(StoreIncomeRequest $request)
     {
+
         $paymentProof = $request->payment_proof->store('payment_proofs', 'public');
 
         $lastIncome = Income::where('user_id', Auth::user()->id)->latest()->first();
 
         if ($lastIncome) {
-            Income::create([
+            $income = Income::create([
                 'payment_proof' => $paymentProof,
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,
@@ -102,7 +106,7 @@ class IncomeController extends Controller
             }
             $incomeDateRaw = Carbon::parse($currentDate); //27
             $income_date = $incomeDateRaw->subDays($daysDifference)->format('Y-m-d'); //23
-            Income::create([
+            $income = Income::create([
                 'payment_proof' => $paymentProof,
                 'user_id' => $request->user_id,
                 'amount' => $request->amount,
@@ -111,6 +115,7 @@ class IncomeController extends Controller
                 'has_paid_until' => $income_date //23
             ]);
         }
+        Mail::to("dcvgaminggg313@gmail.com")->send(new HavePaid($income));
 
         return redirect()->route('incomes')->with('success', 'Proses pembayaran berhasil dibuat, silahkan tunggu konfirmasi dari admin');
     }
@@ -144,7 +149,6 @@ class IncomeController extends Controller
         $income->status = 'Diterima';
 
         $income->save();
-
 
         return redirect()->route('incomes')->with('success', 'Berhasil membayar uang kas');
     }
