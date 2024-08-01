@@ -78,7 +78,8 @@
                 <p><strong>Bukti Pembayaran:</strong> <a href="{{ asset('storage/' . $income->payment_proof) }}">Lihat
                         Bukti</a></p>
                 <p><strong>Nominal:</strong> Rp. {{ number_format($income->amount, 2) }}</p>
-                <p><strong>Tanggal:</strong> {{ $income->income_date }}</p>
+                <p><strong>Tanggal:</strong>
+                    {{ \Carbon\Carbon::parse($income->income_date)->locale('id')->translatedFormat('l, d F Y') }}</p>
                 <p><strong>Deskripsi:</strong> {{ $income->description }}</p>
             </div>
             <p>Terima Kasih Mas!</p>
