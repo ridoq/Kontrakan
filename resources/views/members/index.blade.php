@@ -48,7 +48,7 @@
                             @endphp
                             @forelse ($members as $index=>$member)
                                 <tr>
-                                    <td> {{ $pageNumber + $loop->iteration }} </td>
+                                    <td> {{ $startingNumber - $index }} </td>
                                     <td>
                                         
                                         <img src="{{ asset('storage/' . $member->photo_profile) }}" alt=""

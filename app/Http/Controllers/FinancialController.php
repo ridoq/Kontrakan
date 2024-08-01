@@ -6,17 +6,23 @@ use App\Models\Financial;
 use App\Http\Requests\StoreFinancialRequest;
 use App\Http\Requests\UpdateFinancialRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class FinancialController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $members = User::role('member')->with('incomes')->get();
         $financials = Financial::latest()->paginate(10);
-        return view("financials.index", compact("financials", "members"));
+
+        $page = $request->get('page', 1);
+        $perPage = $financials->perPage();
+        $totalItems = $financials->total();
+        $startingNumber = $totalItems - (($page - 1) * $perPage);
+        return view("financials.index", compact("financials", "members", "startingNumber"));
     }
 
     /**

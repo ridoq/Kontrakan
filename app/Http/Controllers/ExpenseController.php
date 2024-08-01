@@ -14,10 +14,14 @@ class ExpenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $expenses = Expense::latest()->paginate(10);
-        return view('expenses.index', compact('expenses'));
+        $page = $request->get('page', 1);
+        $perPage = $expenses->perPage();
+        $totalItems = $expenses->total();
+        $startingNumber = $totalItems - (($page - 1) * $perPage);
+        return view('expenses.index', compact('expenses', 'startingNumber'));
     }
 
     /**
@@ -39,7 +43,7 @@ class ExpenseController extends Controller
 
         Financial::create([
             'amount' => $newAmount,
-            'nominal' => $request->amount, 
+            'nominal' => $request->amount,
             'expense_date' => $request->expense_date,
             'transaction_type' => 'Pengeluaran',
         ]);
@@ -68,8 +72,8 @@ class ExpenseController extends Controller
      */
     public function update(UpdateExpenseRequest $request, Expense $expense)
     {
-    //    $expense->update($request->all());
-    //    return redirect()->route('expenses')->with('success', 'Berhasil membuat Pengeluaran');
+        //    $expense->update($request->all());
+        //    return redirect()->route('expenses')->with('success', 'Berhasil membuat Pengeluaran');
     }
 
     /**

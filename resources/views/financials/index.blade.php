@@ -97,7 +97,7 @@
                 <h3 class="card-title">Info Kas</h3>
             </div>
 
-            <div class="card-body" style="padding: 30px">
+                <div class="card-body" style="padding: 30px">
                 <div class="table-responsive text-nowrap" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1200">
                     <table class="table">
                         <thead>
