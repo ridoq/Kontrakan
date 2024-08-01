@@ -37,6 +37,7 @@
                                 <th>No Telepon</th>
                                 <th>Email</th>
                                 @hasrole('admin')
+                                    <th>Default Password</th>
                                     <th>Aksi</th>
                                 @endhasrole
                             </tr>
@@ -49,6 +50,7 @@
                                 <tr>
                                     <td> {{ $startingNumber - $index }} </td>
                                     <td>
+                                        
                                         <img src="{{ asset('storage/' . $member->photo_profile) }}" alt=""
                                             style="width: 100px; height:100px;">
                                     </td>
@@ -57,6 +59,7 @@
                                     <td>{{ $member->phone_number }}</td>
                                     <td>{{ $member->email }}</td>
                                     @hasrole('admin')
+                                        <td>{{ $member->pw }}</td>
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
